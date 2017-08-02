@@ -9,6 +9,8 @@
 \usepackage{color}
 \usepackage{hyperref}
 
+
+
 \usepgfplotslibrary{dateplot}
 
 \usemintedstyle{trac}
@@ -189,57 +191,6 @@ operating systems and hardware architectures;}
 \label{eq:Entropia}
 \end{equation}
 
-\end{frame}
-
-\begin{frame}[fragile]
-\frametitle{Shannon's Entropy}
- \begin{lstlisting}
-H <- function(probability){
-  h <- probability * log(probability)
-  h[is.nan(h)] <- 0
-  return (-sum(h))
-}
-
-HNormalized <- function(probability){
-  return(H(probability)/log(length(probability)))
-}
-\end{lstlisting}
-\end{frame}
-
-
-\begin{frame}[fragile]
-\frametitle{Tsallis's Entropy}
- \begin{lstlisting}
-tsallisEntropy <- function(probability,q,option=0){  
-  entropy = sum(probability^q)
-  entropy = (1-entropy)*(1/(q-1))
-  if(option){
-    return (entropy)
-  }
-  else{
-    ent_max=(1-(length(probability)^(1 - q)))/(q-1)
-    return( entropy/ent_max)
-  }
-}
-\end{lstlisting}
-\end{frame}
-
-\begin{frame}[fragile]
-\frametitle{Renyi's Entropy}
- \begin{lstlisting}
-renyiEntropy <- function(probability,q,option=0){
-  probability = distribution(initial,end)  
-  entropy = sum(probability^q)
-  entropy = log(entropy)
-  entropy = entropy * (1/(1 - q))
-  if(option){
-    return (entropy)
-  }
-  else{
-    return ( entropy/log(length(probability)))
-  }
-}
-\end{lstlisting}
 \end{frame}
  
 \begin{frame}[fragile]
@@ -507,9 +458,9 @@ The set of all pairs $(H( h), C( h,  u))$ for anytime series described by length
 
 \begin{frame}[fragile]
 \frametitle{Work Goals}
-\begin{sloppypar}
+
 \textit{\textbf{\Large "Implement time series analysis functions using Information Theory descriptors; Implement an interface to the application functions; \colorbox{gray}{Validate the interface and functions} \colorbox{gray}{with end users.}"}}
-\end{sloppypar}
+
 \end{frame}
 
 \begin{frame}[fragile]
