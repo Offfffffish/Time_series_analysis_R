@@ -1,13 +1,18 @@
 require(RGtk2)
+
 window <- gtkWindow()
 window["title"] <- "Calculator"
+
 frame <- gtkFrameNew("Calculate")
 window$add(frame)
+
 box1 <- gtkVBoxNew()
 box1$setBorderWidth(30)
 frame$add(box1)   #add box1 to the frame
+
 box2 <- gtkHBoxNew(spacing= 10) #distance between elements
 box2$setBorderWidth(24)
+
 TextToCalculate<- gtkEntryNew() #text field with expresion to calculate
 TextToCalculate$setWidthChars(25)
 box1$packStart(TextToCalculate)
