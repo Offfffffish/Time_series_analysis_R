@@ -1,9 +1,9 @@
 library(ggplot2)
-source(file.path('Entropys.R'))
-source(file.path('Distances.R'))
-source(file.path('Read.R'))
-source(file.path('GraficoG.R'))
-source(file.path('teste.R'))
+#source(file.path('Entropys.R'))
+#source(file.path('Distances.R'))
+#source(file.path('Read.R'))
+#source(file.path('GraficoG.R'))
+#source(file.path('teste.R'))
 require(ggthemes)
 
 
@@ -24,13 +24,13 @@ readingMPR<-function(dimension,option=0){
     continua = "continuaN720.txt"
     trozo = "trozosN720.txt"
   }
-  curva1x = Read_txt2(continua,1) 
+  curva1x = Read_txt(continua,1) 
   if(option==1) return(curva1x)
-  curva1y = Read_txt2(continua,2)
+  curva1y = Read_txt(continua,2)
   if(option==2) return(curva1y)
-  curva2x = Read_txt2(trozo,1)
+  curva2x = Read_txt(trozo,1)
   if(option==3) return(curva2x)
-  curva2y = Read_txt2(trozo,2)
+  curva2y = Read_txt(trozo,2)
   if(option==4) return(curva2y)
 }
 
@@ -49,13 +49,13 @@ partitionMPR<-function(series,dimension,delay,partition){
       aux = series[initial:end]
       probability = distribution(aux,dimension,delay)
       entropy[i] = shannonEntropyNormalized(probability)
-      complexity[i] = C(probability)
+      complexity[i] = Ccomplexity(probability)
     }
   }
   else{
     probability = distribution(series,dimension,delay)
     entropy = shannonEntropyNormalized(probability)
-    complexity = C(probability)
+    complexity = Ccomplexity(probability)
   }
   print(entropy)
   print(complexity)
@@ -64,6 +64,6 @@ partitionMPR<-function(series,dimension,delay,partition){
   c2x = readingMPR(dimension,3)
   c2y = readingMPR(dimension,4)
   qplot(x=c2x,y=c2y,geom="line",xlab="Shannon Entropy",ylab="MPR Statistical Complexity") +
-    ggtitle("Plane Complexity Entropy") + theme(plot.title = element_text(hjust=0.5)) +
+    ggtitle("Entropy-Complexity Plane") + theme(plot.title = element_text(hjust=0.5)) +
     geom_line(aes(x=c1x,c1y)) + geom_point(aes(x=entropy,y=complexity),color="blue")
 }

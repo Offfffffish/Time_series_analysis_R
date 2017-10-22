@@ -17,9 +17,9 @@
 \begin{document}
 \thispagestyle{empty}
 
-\title{\textbf{Theory of information and computational statistics in signal processing and analysis - Optimized implementations in \texttt{R}}}
+\title{\textbf{Information Theory and Computational Statistics in Signal Processing and Analysis --- Optimized Implementations in \texttt{R}}}
 
-\author{Eduarda T. C. Chagas, Alejandro C. Frefry \\ 
+\author{Eduarda T. C. Chagas, Alejandro C. Frery \\ 
 	Universidade Federal de Alagoas \\ \\ 
 	\tt{etcc@ic.ufal.br}
 }
@@ -29,50 +29,57 @@
 
 
 \begin{abstract}
-A time series consists of a set of data obtained sequentially through observations over a period of time, not precisely partitioned in equal spaces of time, resulting from the operation of a causal system subject to observational noises, where it has as a great differential the dependence and the consequent existence of patterns present among its elements.
+A time series is a set of data obtained sequentially through observations over a period of time, not precisely partitioned in equal spaces of time, resulting from the operation of a system.
+Such system may be comprised of any mixture of deterministic and stochastic components. 
+It is of paramount importance to detect and characterize structural dependence patterns in such data sets.
 
-Being a solid area in Statistics, the analysis of time series has a wide application in the most diversified areas, such as bank data analysis, vehicular network characterization, seismic data, among many other examples.
+Being a solid area in Statistics, the analysis of time series has a applications in the most diversified areas, such as bank data analysis, vehicular network characterization, seismic data, among many others.
 
-There are several ways to perform the analysis of these data, however the vast majority of them are composed of language libraries dedicated to the development of mathematical calculations, which require a minimum knowledge of them. In this way, the project aims to provide a friendly graphical tool with efficient, fast and good numerical quality functionalities that allows an interactive and exploratory analysis of the data of the time series through techniques derived from Information Theory, having as fundamental requirements portability for different operating systems and hardware architectures, and the use of FLOSS (Free / Open Source Software) tools.
+There are several ways to perform the analysis of these data, however the vast majority of them are composed of language libraries dedicated to the development of mathematical calculations, which require a minimum knowledge of them.
+In this way, the project aims to provide a friendly graphical tool with efficient, fast and good numerical quality functionalities that allows for interactive and exploratory analysis of the data through techniques derived from Information Theory.
+The fundamental requirements are portability with respect to operating systems and hardware architectures, and the use of FLOSS (Free / Open Source Software) tools.
 
-In carrying out the process of time series analysis, we have as main objective to determine patterns in the midst of inherent randomness so characteristic, so that it becomes possible the analysis and consequent decision making based on these results.
-Based on the Information Theory, specific properties of a
-temporal series, contributing to their better study.
+%In carrying out the process of time series analysis, we have as main objective to determine patterns in the midst of inherent randomness so characteristic, so that it becomes possible the analysis and consequent decision making based on these results.
+%Based on the Information Theory, specific properties of a
+%temporal series, contributing to their better study.
 
-Being a time series $\bm x = (x_1, x_2, \dots, x_n)$, by the technique of \textit{simbolização de Bandt \& Pompe}~\cite{PermutationEntropyBandtPompe},
-we will transform the data into groups of $N$ values and ordinal patterns, only to analyze their frequency distribution. Therefore, for $N = 3$ and any $i$,
-for each $x_i<x_{i+1}<x_{i+2}$ we have a given pattern $\pi_0$ associated. The probability distribution will thus be computed by means of the relative frequency of each of the possible $N!$ Patterns.
+Time series $\bm x = (x_1, x_2, \dots, x_n)$ are transformed in sequences of symbols by the technique of Bandt \& Pompe approach~\cite{PermutationEntropyBandtPompe}.
+Each symbol is a nonparametric mapping between groups of $N$ values and ordinal patterns.
+We then analyze frequency distribution of the possible $N!$ symbols. 
 
-Some quantifiers such as entropy, stochastic distance to an equilibrium distribution, and statistical complexity may be extracted from the histogram of the given probability distribution.
-
-Since the Shannon entropy is the metric used to measure the system disorder that gave rise to the $\bm x$ data, we can compute them from $\bm h = (h_1, \dots, h_{N!}$ , the histogram of the proportions of the standard $N!$ observed from the time series $\bm x$.
+We then extract quantifiers, such as entropy, stochastic distances to an equilibrium distribution, and the statistical complexity from the histogram.
+In particular, the Shannon entropy is the metric used to measure the system disorder that gave rise to the $\bm x$ data; it is computed them from $\bm h = (h_1, \dots, h_{N!})$, the histogram of the proportions, as
 
 \begin{equation}
-H(\bm h) = \sum_{i=1}^{N!} (-\log h_i) h_i,
+H(\bm h) = -\sum_{i=1}^{N!} h_i\log h_i) ,
 \label{eq:Entropia}
 \end{equation}
 
-Where we will by convention $-\infty 0=0$.
+where, by convention, $-\infty 0=0$.
 
-Through the uniform distribution $\bm u=(1/N!,\dots,1/N!)$ We can also compute the Jensen-Shannon distance, thus being able to measure how close or far the underlying dynamics lie in a process without information.
+A common reference distribution is the uniform over the $N!$ symbols: $\bm u=(1/N!,\dots,1/N!)$.
+The Jensen-Shannon distance measures how close or far the underlying dynamics lie with respect to a process without information:
 
 \begin{equation}
 D(\bm h,\bm u) = \sum_{i=1}^{N!} \Big(h_i \log\frac{h_i}{u_i} +
 u_i \log\frac{u_i}{p_i}
 \Big),
 \end{equation}
-
 where $u_i=1/N!$.
 
-We can also calculate its statistical complexity, which seeks to find structures of interaction and dependence between the elements of a given series.
+We also calculate the statistical complexity, which seeks to find structures of interaction and dependence between the elements of the series:
 
 \begin{equation}
 C(\bm h, \bm u) = H(\bm h) D(\bm h, \bm u).
 \end{equation}
 
-Every time series can be described by a point $(H(\bm h), C(\bm h, \bm u))$ in a compact subset $\mathbbm R^2$: the Entropy-Complexity plane. By means of such a tool it is possible to discover the nature of the series, determining if this is a chaotic, stochastic or deterministic sequence, analyzing its behavior, since these have different dynamics ~\cite{Rosso2007}.
+Each time series can be thus represented by a point $(H(\bm h), C(\bm h, \bm u))$ in a compact subset of $\mathbbm R^2$: the Entropy-Complexity plane.
+By means of such a tool it is possible to discover the nature of the series, determining if this is a chaotic, stochastic or deterministic sequence~\cite{Rosso2007}.
 
-Although only the Shannon entropy and the Jensen-Shannon divergence were cited, the project provides other entropy options ~\cite{salicruetal1993} and stochastic distances ~\cite{StatisticalInferenceBasedonDivergenceMeasures}. With the contribution of our system, analyzes of the underlying dynamics of time series can be enriched by other descriptors, aiding several successful areas using \textit{Bandt \& Pompe symbolization}, for example, in the recognition of patterns of behavior in vehicular networks ~\cite{CharacterizationVehicleBehaviorInformationTheory} and in the discrimination between stochastic and chaotic phenomena ~\cite{DistinguishingNoiseFromChaos}.
+Although only the Shannon entropy and the Jensen-Shannon divergence were cited, the project provides other measures of entropy~\cite{salicruetal1993} and stochastic distances~\cite{StatisticalInferenceBasedonDivergenceMeasures}.
+
+Our system promotes the analysis of the underlying dynamics of time series.
+It enriches such analysis by a number of descriptors, aiding a variety of applications of the Bandt \& Pompe symbolization approach, for example, in the recognition of patterns of behavior in vehicular networks~\cite{CharacterizationVehicleBehaviorInformationTheory} and in the discrimination between stochastic and chaotic phenomena~\cite{DistinguishingNoiseFromChaos}.
 
 \begin{figure}[hbt]
 	\centering
