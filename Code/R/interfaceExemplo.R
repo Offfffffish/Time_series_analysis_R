@@ -18,7 +18,7 @@ group<- ggroup (cont = paned , horizontal = FALSE )
 #---------------------------------------XXX-------------------------------------------
 frame1 <- gframe ( "PLOT:" , cont = paned , horizontal = TRUE)
 tbl1=glayout(cont=frame1)
-#tbl1[2,2]=img <- gimage("grafico.png")
+tbl1[2,2]=img <- gimage("grafico.png")
 size(frame1)<-c(500,530)
 #------------------------------------frame to enter the plot-----------------------------
 frame <- gframe ( "RESULT:" , cont = group, horizontal = TRUE ,expand=TRUE)
@@ -198,8 +198,9 @@ tbl[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
     if (dialog$run() == GtkResponseType["ok"]) dialog$destroy()
   }
   result = as.character(finalResult)
-  tbl1[2,2]=img <- gimage(name)
-  print(name)
+  #tbl1[2,2]=img 
+  svalue(img)<- name
+  #print(name)
   #tbl[6,3] <- (text1 <- gedit(result,container=tbl,coerce.with=as.numeric))
 })
 
