@@ -2,7 +2,7 @@ equalitiesValues<-function(series){
   aux = duplicated(series)
   answer = length(aux[aux==TRUE])
   answer = (answer*100)/length(series)
-  cat("Percent of repeated values: ",answer,"\n")
+  paste(answer,"%")
 } 
 
 PMEUnidimensional<-function(probability){

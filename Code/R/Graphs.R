@@ -2,9 +2,17 @@ library(combinat)
 library(ggplot2)
 library(dygraphs)
 
-time_series<-function(serie){
-  qplot(x=c(1:length(serie)),y=serie,geom="line",xlab="Time",ylab="Serie") +
+time_series<-function(serie,cont){ 
+  if(cont%%2==0){
+    png("myplot.png")
+  }else{
+    png("myplot2.png")
+  }
+  p = qplot(x=c(1:length(serie)),y=serie,geom="line",xlab="Time",ylab="Serie") +
     ggtitle("Graphic of time serie") + theme(plot.title = element_text(hjust=0.5))
+  print(p)
+  #plot(x=c(1:length(serie)),y=serie)
+  dev.off()
 }
 
 #Points == 0 -> first point
