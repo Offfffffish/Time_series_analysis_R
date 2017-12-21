@@ -19,11 +19,13 @@ plotPAA<-function(series,size,option=0){
   steps = data.frame(x=vline,y=segm)
   segm = as.double(format(round(segm,2),nsmall=2))
   myText = segm[1:size]
+  png("myPAA.png")
   p = qplot(x=c(1:length(series)),y=series,geom="line",xlab="Time",ylab="Serie",colour="red") +
       ggtitle("Piecewise Aggregate Approximation") + theme(plot.title = element_text(hjust=0.5)) +
       geom_step(data=steps,aes(x=x,y=y),colour="black") +
       geom_text(aes(x=(vline[1:(length(vline)-1)]+vline[2:length(vline)])/2,y=segm[1:(length(segm)-1)]*1.05,label=myText,colour="blue"))
-  plot(p)
+  print(p)
+  dev.off()
   print(segm[1:size])
 }
 

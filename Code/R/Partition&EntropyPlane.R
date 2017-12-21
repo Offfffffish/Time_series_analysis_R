@@ -24,71 +24,52 @@ partition<-function(series,size,delay){
   }
   myPartition[1:(counter),]
 }
-
-#Option
-#Shannon 1
-#Tsallis 2
-#Renyi 3
-#Min entropy 4
-#OptionP
-#Band and Pompe 1
-#Bandt and Pompe weigth 2
-entropyPlane<-function(partitions,dimension,delay,option=1,optionP=1,q=0){
-  numberPartitions = dim(partitions)[1]
-  if(is.null(numberPartitions)){
-    numberPartitions = 1
+entropyPlane<-function(serie,partition,dimension,delay,option1,option2,q=0){
+  entropy = rep(0,partition)
+  division = length(serie)/partition
+  division = floor(division)
+  cont = 1
+  rest = 0
+  if(partition*division < length(serie)){
+    rest = length(serie) - (partition*division)
   }
-  entropy = rep(0,numberPartitions)
-  probability = matrix(nrow=numberPartitions,ncol=factorial(dimension))
-  if(optionP == 1){
-    if(numberPartitions==1){
-      probability[1,] = distribution(partitions,dimension,delay)
+  init = 1
+  final = 0
+  for(i in 1:partition){
+    final = final + division
+    if(cont <= rest){
+      final = final +  1
     }
-    else{
-      for(i in 1:numberPartitions){
-        probability[i,] = distribution(partitions[i,],dimension,delay)
-      }
+    myPartition = serie[init:final]
+    if(option1 == 1){
+      probability = distribution(myPartition,dimension,delay)
+    }else{
+      probability = WPE(myPartition,dimension,delay)
     }
-  }else if(optionP == 2){
-    if(numberPartitions==1){
-      probability[1,] = WPE(partitions,dimension,delay)
+    if(option2 == 1){
+      entropy[i] = shannonEntropyNormalized(probability)
+    }else if(option2 == 2){
+      entropy[i] = tsallisEntropy(probability,q)
+    }else if(option2 == 3){
+      entropy[i] = renyiEntropy(probability,q)
+    }else{
+      entropy[i] = PMEUnidimensional(probability)
     }
-    else{
-      for(i in 1:numberPartitions){
-        probability[i,] = WPE(partitions[i,],dimension,delay)
-      }
-    }
-  }else{
-    cat("Entropy option unavailable\n")
-  }
-  if(option == 1){
-    for(i in 1:numberPartitions){
-      entropy[i] = shannonEntropyNormalized(probability[i,])
-    }
-  }else if(option == 2){
-    for(i in 1:numberPartitions){
-      entropy[i] = tsallisEntropy(probability[i,],q)
-    }
-  }else if(option == 3){
-    for(i in 1:numberPartitions){
-      entropy[i] = renyiEntropy(probability[i,],q)
-    }
-  }else if(option == 4){
-    for(i in 1:numberPartitions){
-      entropy[i] = PMEUnidimensional(probability[i,])
-    }
-  }else{
-    cat("Entropy option unavailable\n")
+    init = final + 1
+    cont = cont + 1
   }
   print(entropy)
-  if(numberPartitions==1){
-    qplot(x=c(1:numberPartitions),y=entropy,geom="point",xlab="Partitions-Time Series",ylab="Entropy") +
+  png("myEntropy.png")
+  if(partition==1){
+    p = qplot(x=c(1:partition),y=entropy,geom="point",xlab="Partitions-Time Series",ylab="Entropy") +
       ggtitle("Permutation Entropy Evolution") + theme(plot.title = element_text(hjust=0.5))
   }
   else{
-    qplot(x=c(1:numberPartitions),y=entropy,geom="line",xlab="Partitions-Time Series",ylab="Entropy") +
+    p = qplot(x=c(1:partition),y=entropy,geom="line",xlab="Partitions-Time Series",ylab="Entropy") +
       ggtitle("Permutation Entropy Evolution") + theme(plot.title = element_text(hjust=0.5))
   }
+  print(p)
+  dev.off()
 }
 
 distancePlane<-function(partitions,dimension,delay,option=1,optionP=1,q=1){

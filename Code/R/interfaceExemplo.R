@@ -57,7 +57,7 @@ tbl2[14,2] =glabel("NUMBER OF POINTS")
 tbl2[14,7] <- (text7 <- gedit("", container=tbl2,coerce.with=as.numeric))
 tbl2[16,2] =glabel("DISTRIBUTION")
 tbl2[16,7] <- (cb3 <- gcombobox(dist, cont=tbl2))
-#---------------------------------my functions -----------------------------------------
+#---------------------------------my function -----------------------------------------
 tbl[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
   name = "grafico.png"
   myResult = svalue(cb1,index=TRUE)
@@ -72,7 +72,7 @@ tbl[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
   if((myResult == 4) ||(myResult == 5) ||(myResult == 6) || (myResult == 7) ||(myResult == 8) ||(myResult == 12) ||
      (myResult == 1) ||(myResult == 13) ||(myResult == 23) ||(myResult == 9)){ 
     if(!is.na(svalue(text2))){
-      if(svalue(cb3,index=TRUE)==0){
+      if(svalue(cb3,index=TRUE)==1){
         probability = distribution(time,svalue(cb2,index=TRUE)+3,svalue(text2),1)
       }else{
         probability = WPE(time,svalue(cb2,index=TRUE)+3,svalue(text2))
@@ -90,23 +90,24 @@ tbl[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
       }else if(myResult == 12){
         finalResult = Ccomplexity(probability)
       }else if(myResult == 1){
-        finalResult = shannonEntropy(probability)
+        finalResult = shannonEntropyNormalized(probability)
       }else if(myResult == 13){
         finalResult = PMEUnidimensional(probability)
       }else if(myResult == 17){
         finalResult = WPE(time,svalue(cb2,index=TRUE)+3,svalue(text2))
       }else if(myResult == 23){
         histogram(time,svalue(cb2,index=TRUE)+3,svalue(text2))
+        name = "myHistogram.png"
       }else if(myResult == 9){
         finalResult = jensenDivergence(probability)
       }
-    }else if(is.na(svalue(text2))){
+    }else{
       alert = 1
       missingParameter = paste(missingParameter," Dimension, delay and distribution.")
     }
   }else if((myResult == 11) ||(myResult == 10) ||(myResult == 2) || (myResult == 3)){ 
     if((!is.na(svalue(text2)))&&(!is.na(svalue(text3)))){
-      if(svalue(cb3,index=TRUE)==0){
+      if(svalue(cb3,index=TRUE)==1){
         probability = distribution(time,svalue(cb2,index=TRUE)+3,svalue(text2),1)
       }else{
         probability = WPE(time,svalue(cb2,index=TRUE)+3,svalue(text2))
@@ -120,27 +121,30 @@ tbl[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
       }else if(myResult == 3){
         finalResult = renyiEntropy(probability,svalue(text3))
       }
-    }else if((is.na(svalue(text2)))||(is.na(svalue(text3)))){
+    }else{
       alert = 1
       missingParameter = paste(missingParameter," Dimension, delay, q and distribution.")
     }
   }else if((myResult == 22)){
-    if((!is.na(svalue(text4)))&&(!is.na(svalue(text7)))){
-      patternsOnGraph(time,svalue(cb2,index=TRUE)+3,svalue(text2),svalue(text7))
-    }else if((is.na(svalue(text4)))||(is.na(svalue(text7)))){
+    if((!is.na(svalue(text4)))&&(!is.na(svalue(text2)))&&(!is.na(svalue(cb2,index=TRUE)))){
+      patternsOnGraph(time,svalue(cb2,index=TRUE)+3,svalue(text2),svalue(text4))
+      name = "myPattern.png"
+    }else{
       alert = 1
-      missingParameter = paste(missingParameter," Pattern and number of points.")
+      missingParameter = paste(missingParameter," Dimension, delay and Pattern")
     }
   }else if((myResult == 14)){
     if((!is.na(svalue(text5)))&&(!is.na(svalue(text6)))){
       saxPlot(time,svalue(text5),svalue(text6))
-    }else if((is.na(svalue(text5)))||(is.na(svalue(text6)))){
+      name = "mySAX.png"
+    }else{
       alert = 1
       missingParameter = paste(missingParameter," Letters and partitions.")
     }
   }else if((myResult == 15)){
     if((!is.na(svalue(text7)))){
       PIP(time,svalue(text7))
+      name = "myPIP.png"
     }else{
       alert = 1
       missingParameter = paste(missingParameter," Number of points.")
@@ -148,34 +152,37 @@ tbl[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
   }else if((myResult == 16)){
     if((!is.na(svalue(text6)))){
       plotPAA(time,svalue(text6))
+      name = "myPAA.png"
     }else{
       alert = 1
       missingParameter = paste(missingParameter," Partitions.")
     }
   }else if((myResult == 19)){
-    if((!is.na(svalue(text2)))&&(!is.na(svalue(text3)))&&(!is.na(svalue(text6)))){
-      dialog <- gtkMessageDialog(NULL, "destroy-with-parent","question", "ok", "What entropy and distribution should be used in the process?")
-      choicesE <- c("Shannon entropy" , "Tsallis entropy", "Renyi entropy","Min entropy")
-      radio_buttons <- NULL
-      vbox <- gtkVBox(TRUE, 2)
-      for (choice in choicesE) {
-        button <- gtkRadioButton(radio_buttons, choice)
-        vbox$add(button)
-        radio_buttons <- c(radio_buttons, button)
-      }
-      frame <- gtkFrame("Entropys")
-      frame$add(vbox)
-      dialog[["vbox"]]$add(frame)
-      if (dialog$run() == GtkResponseType["ok"]) dialog$destroy()
-      entropyPlane(svalue(text6),svalue(cb2,index=TRUE)+3,svalue(text2),1,1,svalue(text3))
-    }else if((is.na(svalue(text2)))||(is.na(svalue(text3)))||(is.na(svalue(text6)))){
+    if((!is.na(svalue(text2)))&&(!is.na(svalue(text6)))&&(!is.na(svalue(cb2,index=TRUE)))){
+      #dialog <- gtkMessageDialog(NULL, "destroy-with-parent","question", "ok", "What entropy and distribution should be used in the process?")
+      #choicesE <- c("Shannon entropy" , "Tsallis entropy", "Renyi entropy","Min entropy")
+      #radio_buttons <- NULL
+      #vbox <- gtkVBox(TRUE, 2)
+      #for (choice in choicesE) {
+       # button <- gtkRadioButton(radio_buttons, choice)
+       # vbox$add(button)
+       # radio_buttons <- c(radio_buttons, button)
+      #}
+      #frame <- gtkFrame("Entropys")
+      #frame$add(vbox)
+      #dialog[["vbox"]]$add(frame)
+      #if (dialog$run() == GtkResponseType["ok"]) dialog$destroy()
+      entropyPlane(time,svalue(text6),svalue(cb2,index=TRUE)+3,svalue(text2),1,1,0)
+      name = "myEntropy.png"
+    }else{
       alert = 1
-      missingParameter = paste(missingParameter," Dimension, delay, q, distribution and partitions.")
+      missingParameter = paste(missingParameter," Dimension, delay and partitions.")
     }
   }else if((myResult == 20)){    
     if((!is.na(svalue(text2)))&&(!is.na(svalue(text6)))){
       partitionMPR(time,svalue(cb2,index=TRUE)+3,svalue(text2),svalue(text6))
-    }else if((is.na(svalue(text2)))||(is.na(svalue(text6)))){
+      name = "myHC.png"
+    }else{
       alert = 1
       missingParameter = paste(missingParameter," Dimension, delay and partitions.")
     }
@@ -198,9 +205,7 @@ tbl[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
     if (dialog$run() == GtkResponseType["ok"]) dialog$destroy()
   }
   result = as.character(finalResult)
-  #tbl1[2,2]=img 
   svalue(img)<- name
-  #print(name)
-  #tbl[6,3] <- (text1 <- gedit(result,container=tbl,coerce.with=as.numeric))
+  tbl[6,3] <- (text1 <- gedit(result,container=tbl,coerce.with=as.numeric))
 })
 

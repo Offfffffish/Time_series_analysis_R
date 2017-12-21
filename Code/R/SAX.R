@@ -41,10 +41,12 @@ saxPlot<-function(series,numberSymbols,size){
     }
   }
   steps = data.frame(x=vline,y=segm)
+  png("mySAX.png")
   p = qplot(geom="line",xlab="Time",ylab="Serie") +
     ggtitle("Symbolic Aggregate Approximation") + theme(plot.title = element_text(hjust=0.5)) +
     geom_hline(yintercept=point) + geom_step(data = steps,aes(x=x,y=y),colour="black") +
     geom_text(aes(x=(vline[1:(length(vline)-1)]+vline[2:length(vline)])/2,y=segm[1:(length(segm)-1)],label=letters[Psax],colour="red"))
-  plot(p)
+  print(p)
   print(sax)
+  dev.off()
 }

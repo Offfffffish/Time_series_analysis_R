@@ -11,7 +11,6 @@ time_series<-function(serie,cont){
   p = qplot(x=c(1:length(serie)),y=serie,geom="line",xlab="Time",ylab="Serie") +
     ggtitle("Graphic of time serie") + theme(plot.title = element_text(hjust=0.5))
   print(p)
-  #plot(x=c(1:length(serie)),y=serie)
   dev.off()
 }
 
@@ -41,14 +40,17 @@ patternsOnGraph<-function(serie,dimension,delay,number_of_pattern,points = 0){
       }
     }
   }
+  png("myPattern.png")
   if(lengthW!=0){
-    qplot(x=c(1:length(serie)),y=serie,geom="line",xlab="Time",ylab="Serie") +
+    p =qplot(x=c(1:length(serie)),y=serie,geom="line",xlab="Time",ylab="Serie") +
       ggtitle("Graphic of time serie") + theme(plot.title = element_text(hjust=0.5)) +
       geom_point(aes(x=point_time[1:lengthW],y=point_value[1:lengthW]),color="blue")
   }else{
-    qplot(x=c(1:length(serie)),y=serie,geom="line",xlab="Time",ylab="Serie") +
+    p =qplot(x=c(1:length(serie)),y=serie,geom="line",xlab="Time",ylab="Serie") +
       ggtitle("Graphic of time serie") + theme(plot.title = element_text(hjust=0.5))
   }
+  print(p)
+  dev.off()
 }
 
 histogram<-function(serie,dimension,delay){
@@ -66,10 +68,12 @@ histogram<-function(serie,dimension,delay){
     }
   }
   index_rep=index_rep[1:n_symbols]
+  png("myHistogram.png")
   p = qplot(index_rep,geom="histogram",xlab="Patterns",ylab="Probability",binwidth=1) +
     ggtitle("Histogram of the patterns") + theme(plot.title = element_text(hjust=0.5))
-  plot(p)
+  print(p)
   print(symbol)
+  dev.off()
 }
 
 histogramImage<-function(myImg,dimx,dimy,delx,dely,dimension=0){  
@@ -93,7 +97,7 @@ histogramImage<-function(myImg,dimx,dimy,delx,dely,dimension=0){
   index_rep=index_rep[1:n_symbols]
   p = qplot(index_rep,geom="histogram",xlab="Patterns",ylab="Probability",binwidth=1) +
     ggtitle("Histogram of the patterns") + theme(plot.title = element_text(hjust=0.5))
-  plot(p)
+  print(p)
   print(symbols)
 }
 

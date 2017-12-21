@@ -63,7 +63,10 @@ partitionMPR<-function(series,dimension,delay,partition){
   c1y = readingMPR(dimension,2)
   c2x = readingMPR(dimension,3)
   c2y = readingMPR(dimension,4)
-  qplot(x=c2x,y=c2y,geom="line",xlab="Shannon Entropy",ylab="MPR Statistical Complexity") +
+  png("myHC.png")
+  p = qplot(x=c2x,y=c2y,geom="line",xlab="Shannon Entropy",ylab="MPR Statistical Complexity") +
     ggtitle("Entropy-Complexity Plane") + theme(plot.title = element_text(hjust=0.5)) +
     geom_line(aes(x=c1x,c1y)) + geom_point(aes(x=entropy,y=complexity),color="blue")
+  print(p)
+  dev.off()
 }
