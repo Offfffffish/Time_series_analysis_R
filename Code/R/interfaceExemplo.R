@@ -22,7 +22,7 @@ tbl1[2,2]=img <- gimage("grafico.png")
 size(frame1)<-c(500,530)
 #------------------------------------frame to enter the plot-----------------------------
 frame <- gframe ( "RESULT:" , cont = group, horizontal = TRUE ,expand=TRUE)
-size(frame)<-c(480,150)
+size(frame)<-c(480,180)
 tbl=glayout(cont=frame)
 fun = c("Shannon Entropy" , "Tsallis Entropy", "Renyi Entropy","Euclidian Distance","Quadratic Euclidian Distance"
     ,"Manhattan Distance","Chebyshev Distance","Hellinger Distance","Jensen Divergence","Wootter Distance","Kullback Leibler Divergence",
@@ -34,7 +34,8 @@ tbl[2,2] = myFile = gfilebrowse (text = "Select file...", type = "open", quote =
 tbl[4,2] <- glabel("FUNCTION")
 tbl[4,3] <- (cb1 <- gcombobox(fun,container=tbl))
 tbl[6,2] <- glabel("RESULT")
-tbl[6,3] <- (text1 <- gedit("",container=tbl,coerce.with=as.numeric))
+#tbl[6,3] <- (text1 <- gedit("",container=tbl,coerce.with=as.numeric))
+tbl[6,3] <- (text1 <- gtext("",container = tbl,width = 100,height = 50))
 #---------------------------------------XXX-------------------------------------------
 frame2<- gframe ("PARAMETERS:",cont=group,horizontal=TRUE,expand=TRUE)
 size(frame2)<-c(480,380)
@@ -206,6 +207,7 @@ tbl[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
   }
   result = as.character(finalResult)
   svalue(img)<- name
-  tbl[6,3] <- (text1 <- gedit(result,container=tbl,coerce.with=as.numeric))
+  #tbl[6,3] <- (text1 <- gedit(result,container=tbl,coerce.with=as.numeric))
+  tbl[6,3] <- (text1 <- gtext(result,container = tbl,width = 100,height = 50))
 })
 

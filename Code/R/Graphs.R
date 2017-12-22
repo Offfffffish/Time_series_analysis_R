@@ -72,8 +72,8 @@ histogram<-function(serie,dimension,delay){
   p = qplot(index_rep,geom="histogram",xlab="Patterns",ylab="Probability",binwidth=1) +
     ggtitle("Histogram of the patterns") + theme(plot.title = element_text(hjust=0.5))
   print(p)
-  print(symbol)
   dev.off()
+  return(symbol)
 }
 
 histogramImage<-function(myImg,dimx,dimy,delx,dely,dimension=0){  
