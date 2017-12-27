@@ -46,5 +46,5 @@ PIP<-function(serie,numberPIPs){
       geom_text(aes(x=pip,y=serie[pip]*1.1,label=texto,colour="black"))
   print(p)
   dev.off()
-  result 
+  return(result)
 }

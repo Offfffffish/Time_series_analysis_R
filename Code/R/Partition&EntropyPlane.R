@@ -58,7 +58,6 @@ entropyPlane<-function(serie,partition,dimension,delay,option1,option2,q=0){
     init = final + 1
     cont = cont + 1
   }
-  print(entropy)
   png("myEntropy.png")
   if(partition==1){
     p = qplot(x=c(1:partition),y=entropy,geom="point",xlab="Partitions-Time Series",ylab="Entropy") +
@@ -70,6 +69,7 @@ entropyPlane<-function(serie,partition,dimension,delay,option1,option2,q=0){
   }
   print(p)
   dev.off()
+  return(entropy)
 }
 
 distancePlane<-function(partitions,dimension,delay,option=1,optionP=1,q=1){

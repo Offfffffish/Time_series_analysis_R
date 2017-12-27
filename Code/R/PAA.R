@@ -26,7 +26,7 @@ plotPAA<-function(series,size,option=0){
       geom_text(aes(x=(vline[1:(length(vline)-1)]+vline[2:length(vline)])/2,y=segm[1:(length(segm)-1)]*1.05,label=myText,colour="blue"))
   print(p)
   dev.off()
-  print(segm[1:size])
+  return(segm[1:size])
 }
 
 sum_of_variation<-function(segment){

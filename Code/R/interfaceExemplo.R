@@ -19,7 +19,9 @@ require(RGtk2)
 options(guiToolkit="RGtk2")
 
 cont = 0
+contFiles = 0
 write.table(cont,file="GraphControl.txt")
+write.table(contFiles,file="AuxResult.txt")
 win=gwindow("TIME SERIES ANALYSIS  ")
 img <- gdkPixbufNewFromFile("icone.png")
 getToolkitWidget(win)$setIcon(img$retval)
@@ -51,12 +53,12 @@ tbl2=glayout(cont=frame2)
 dist = c("Band and Pompe" , "Bandt and Pompe weigth")
 dim = c("3","4","5","6")
 fun = c("Shannon Entropy" , "Tsallis Entropy", "Renyi Entropy","Euclidian Distance","Quadratic Euclidian Distance"
-        ,"Manhattan Distance","Chebyshev Distance","Hellinger Distance","Jensen Divergence","Wootter Distance","Kullback Leibler Divergence",
-        "Statistical Complexity","Permutation Min Entropy","Symbolic Aggregate Approximation","Perceptually Important Points","Piecewise Aggregate Approximation",
-        "Bandt and Pompe Weigth","Equalities Values","Entropy Plane","HC Plane","Time Series Plane","Patterns on Graph","Histogram")
+    ,"Manhattan Distance","Chebyshev Distance","Hellinger Distance","Jensen Divergence","Wootter Distance","Kullback Leibler Divergence",
+    "Statistical Complexity","Permutation Min Entropy","Symbolic Aggregate Approximation","Perceptually Important Points","Piecewise Aggregate Approximation",
+    "Bandt and Pompe Weigth","Entropy Plane","HC Plane","Time Series Plane","Patterns on Graph","Histogram")
 tbl2[2,2] = myFile = gfilebrowse (text = "Select file...", type = "open", quote = FALSE,
-                                  filter = list("Text File" = list(patterns = c("*.csv"))),      
-                                  container = tbl)
+                         filter = list("Text File" = list(patterns = c("*.csv"))),      
+                         container = tbl)
 tbl2[4,2] <- glabel("FUNCTION")
 tbl2[4,3] <- (cb1 <- gcombobox(fun,container=tbl))
 tbl2[6,2] =glabel("DIMENSION")
@@ -79,6 +81,13 @@ tbl2[20,3] <- (cb3 <- gcombobox(dist, cont=tbl2))
 
 tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
   name = "grafico.png"
+  nameResult = "result"
+  contFiles = read.table("AuxResult.txt")
+  if(contFiles != 0){
+    nameResult = paste(nameResult,toString(contFiles))
+  }
+  nameResult = paste(nameResult,".txt")
+  print(nameResult)
   missingParameter = "The desired functionality could not be performed, the parameters are missing:"
   myResult = svalue(cb1,index=TRUE)
   if(svalue(myFile) != "Select file..."){
@@ -88,9 +97,10 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
       time = type.convert(time)
     }
     time = na.omit(time)
+    size = length(time)
     alert = finalResult = 0
     if((myResult == 4) ||(myResult == 5) ||(myResult == 6) || (myResult == 7) ||(myResult == 8) ||(myResult == 12) ||
-       (myResult == 1) ||(myResult == 13) ||(myResult == 23) ||(myResult == 9)){ 
+       (myResult == 1) ||(myResult == 13) ||(myResult == 22) ||(myResult == 9)){ 
       if(!is.na(svalue(text2))){
         if(svalue(cb3,index=TRUE)==1){
           probability = distribution(time,svalue(cb2,index=TRUE)+3,svalue(text2),1)
@@ -115,7 +125,7 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
           finalResult = PMEUnidimensional(probability)
         }else if(myResult == 17){
           finalResult = WPE(time,svalue(cb2,index=TRUE)+3,svalue(text2))
-        }else if(myResult == 23){
+        }else if(myResult == 22){
           histogram(time,svalue(cb2,index=TRUE)+3,svalue(text2))
           name = "myHistogram.png"
         }else if(myResult == 9){
@@ -145,7 +155,7 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
         alert = 1
         missingParameter = paste(missingParameter," Dimension, delay, q and distribution.")
       }
-    }else if((myResult == 22)){
+    }else if((myResult == 21)){
       if((!is.na(svalue(text4)))&&(!is.na(svalue(text2)))&&(!is.na(svalue(cb2,index=TRUE)))){
         patternsOnGraph(time,svalue(cb2,index=TRUE)+3,svalue(text2),svalue(text4))
         name = "myPattern.png"
@@ -177,7 +187,7 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
         alert = 1
         missingParameter = paste(missingParameter," Partitions.")
       }
-    }else if((myResult == 19)){
+    }else if((myResult == 18)){
       if((!is.na(svalue(text2)))&&(!is.na(svalue(text6)))&&(!is.na(svalue(cb2,index=TRUE)))){
         entropyPlane(time,svalue(text6),svalue(cb2,index=TRUE)+3,svalue(text2),1,1,0)
         name = "myEntropy.png"
@@ -185,7 +195,7 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
         alert = 1
         missingParameter = paste(missingParameter," Dimension, delay and partitions.")
       }
-    }else if((myResult == 20)){    
+    }else if((myResult == 19)){    
       if((!is.na(svalue(text2)))&&(!is.na(svalue(text6)))){
         partitionMPR(time,svalue(cb2,index=TRUE)+3,svalue(text2),svalue(text6))
         name = "myHC.png"
@@ -193,9 +203,7 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
         alert = 1
         missingParameter = paste(missingParameter," Dimension, delay and partitions.")
       }
-    }else if(myResult == 18){ 
-      finalResult = equalitiesValues(time)
-    }else if(myResult == 21){
+    }else if(myResult == 20){
       cont = read.table("GraphControl.txt")
       time_series(time,cont)
       if(cont%%2==0){
@@ -208,8 +216,8 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
       
     }
   }else{
-    alert = 1
-    missingParameter = paste(missingParameter," Time series file.")    
+        alert = 1
+        missingParameter = paste(missingParameter," Time series file.")    
   }
   if(alert==1){
     dialog <- gtkMessageDialog(NULL, "destroy-with-parent","info", "ok", missingParameter)
@@ -217,6 +225,11 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
   }
   result = as.character(finalResult)
   svalue(img)<- name
+  equals = equalitiesValues(time)
+  contFiles = contFiles + 1
+  write.table(contFiles,"AuxResult.txt")  
+  tbl[6,15] <- (text3 <- gedit(equals,container=tbl,coerce.with=as.numeric))
   tbl[2,15] <- (text1 <- gedit(result,container=tbl,coerce.with=as.numeric))
+  tbl[4,15] <- (text2 <- gedit(size,container=tbl,coerce.with=as.numeric))
 })
 
