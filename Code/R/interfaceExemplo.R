@@ -34,44 +34,50 @@ tbl1[2,2]=img <- gimage("grafico.png")
 size(frame1)<-c(500,530)
 #------------------------------------frame to enter the plot-----------------------------
 frame <- gframe ( "RESULT:" , cont = group, horizontal = TRUE ,expand=TRUE)
-size(frame)<-c(480,180)
+size(frame)<-c(480,200)
 tbl=glayout(cont=frame)
-fun = c("Shannon Entropy" , "Tsallis Entropy", "Renyi Entropy","Euclidian Distance","Quadratic Euclidian Distance"
-    ,"Manhattan Distance","Chebyshev Distance","Hellinger Distance","Jensen Divergence","Wootter Distance","Kullback Leibler Divergence",
-    "Statistical Complexity","Permutation Min Entropy","Symbolic Aggregate Approximation","Perceptually Important Points","Piecewise Aggregate Approximation",
-    "Bandt and Pompe Weigth","Equalities Values","Entropy Plane","HC Plane","Time Series Plane","Patterns on Graph","Histogram")
-tbl[2,2] = myFile = gfilebrowse (text = "Select file...", type = "open", quote = FALSE,
-                         filter = list("Text File" = list(patterns = c("*.csv"))),      
-                         container = tbl)
-tbl[4,2] <- glabel("FUNCTION")
-tbl[4,3] <- (cb1 <- gcombobox(fun,container=tbl))
-tbl[6,2] <- glabel("RESULT")
-tbl[6,3] <- (text1 <- gedit("",container=tbl,coerce.with=as.numeric))
-#tbl[6,3] <- (text1 <- gtext("",container = tbl,width = 100,height = 50))
+tbl[2,2] <- glabel("VALUE OF THE RESULT")
+tbl[2,15] <- (text1 <- gedit("",container=tbl,coerce.with=as.numeric))
+tbl[4,2] <- glabel("TIME SERIES SIZE")
+tbl[4,15] <- (text2 <- gedit("",container=tbl,coerce.with=as.numeric))
+tbl[6,2] <- glabel("PERCENTAGE OF EQUAL VALUES")
+tbl[6,15] <- (text3 <- gedit("",container=tbl,coerce.with=as.numeric))
+tbl[8,2] <- glabel("EXPORT RESULT")
+tbl[8,15] <- gbutton("RESULT.TXT",container=tbl,handler=function(a=1,b=2){})
 #---------------------------------------XXX-------------------------------------------
 frame2<- gframe ("PARAMETERS:",cont=group,horizontal=TRUE,expand=TRUE)
-size(frame2)<-c(480,380)
+size(frame2)<-c(480,450)
 tbl2=glayout(cont=frame2)
 dist = c("Band and Pompe" , "Bandt and Pompe weigth")
 dim = c("3","4","5","6")
-tbl2[2,2] =glabel("DIMENSION")
-tbl2[2,7] <- (cb2 <- gcombobox(dim, cont=tbl2))
-tbl2[4,2] =glabel("DELAY")
-tbl2[4,7]<- (text2 <- gedit("", container=tbl2,coerce.with=as.numeric))
-tbl2[6,2] =glabel("Q")
-tbl2[6,7] <- (text3 <- gedit("", container=tbl2,coerce.with=as.numeric))
-tbl2[8,2] =glabel("PATTERN")
-tbl2[8,7] <- (text4 <- gedit("", container=tbl2,coerce.with=as.numeric))
-tbl2[10,2] =glabel("LETTERS")
-tbl2[10,7] <- (text5 <- gedit("", container=tbl2,coerce.with=as.numeric))
-tbl2[12,2] =glabel("PARTITIONS")
-tbl2[12,7] <- (text6 <- gedit("", container=tbl2,coerce.with=as.numeric))
-tbl2[14,2] =glabel("NUMBER OF POINTS")
-tbl2[14,7] <- (text7 <- gedit("", container=tbl2,coerce.with=as.numeric))
-tbl2[16,2] =glabel("DISTRIBUTION")
-tbl2[16,7] <- (cb3 <- gcombobox(dist, cont=tbl2))
+fun = c("Shannon Entropy" , "Tsallis Entropy", "Renyi Entropy","Euclidian Distance","Quadratic Euclidian Distance"
+        ,"Manhattan Distance","Chebyshev Distance","Hellinger Distance","Jensen Divergence","Wootter Distance","Kullback Leibler Divergence",
+        "Statistical Complexity","Permutation Min Entropy","Symbolic Aggregate Approximation","Perceptually Important Points","Piecewise Aggregate Approximation",
+        "Bandt and Pompe Weigth","Equalities Values","Entropy Plane","HC Plane","Time Series Plane","Patterns on Graph","Histogram")
+tbl2[2,2] = myFile = gfilebrowse (text = "Select file...", type = "open", quote = FALSE,
+                                  filter = list("Text File" = list(patterns = c("*.csv"))),      
+                                  container = tbl)
+tbl2[4,2] <- glabel("FUNCTION")
+tbl2[4,3] <- (cb1 <- gcombobox(fun,container=tbl))
+tbl2[6,2] =glabel("DIMENSION")
+tbl2[6,3] <- (cb2 <- gcombobox(dim, cont=tbl2))
+tbl2[8,2] =glabel("DELAY")
+tbl2[8,3]<- (text2 <- gedit("", container=tbl2,coerce.with=as.numeric))
+tbl2[10,2] =glabel("Q")
+tbl2[10,3] <- (text3 <- gedit("", container=tbl2,coerce.with=as.numeric))
+tbl2[12,2] =glabel("PATTERN")
+tbl2[12,3] <- (text4 <- gedit("", container=tbl2,coerce.with=as.numeric))
+tbl2[14,2] =glabel("LETTERS")
+tbl2[14,3] <- (text5 <- gedit("", container=tbl2,coerce.with=as.numeric))
+tbl2[16,2] =glabel("PARTITIONS")
+tbl2[16,3] <- (text6 <- gedit("", container=tbl2,coerce.with=as.numeric))
+tbl2[18,2] =glabel("NUMBER OF POINTS")
+tbl2[18,3] <- (text7 <- gedit("", container=tbl2,coerce.with=as.numeric))
+tbl2[20,2] =glabel("DISTRIBUTION")
+tbl2[20,3] <- (cb3 <- gcombobox(dist, cont=tbl2))
 #---------------------------------my function -----------------------------------------
-tbl[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
+
+tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
   name = "grafico.png"
   missingParameter = "The desired functionality could not be performed, the parameters are missing:"
   myResult = svalue(cb1,index=TRUE)
@@ -173,19 +179,6 @@ tbl[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
       }
     }else if((myResult == 19)){
       if((!is.na(svalue(text2)))&&(!is.na(svalue(text6)))&&(!is.na(svalue(cb2,index=TRUE)))){
-        #dialog <- gtkMessageDialog(NULL, "destroy-with-parent","question", "ok", "What entropy and distribution should be used in the process?")
-        #choicesE <- c("Shannon entropy" , "Tsallis entropy", "Renyi entropy","Min entropy")
-        #radio_buttons <- NULL
-        #vbox <- gtkVBox(TRUE, 2)
-        #for (choice in choicesE) {
-         # button <- gtkRadioButton(radio_buttons, choice)
-         # vbox$add(button)
-         # radio_buttons <- c(radio_buttons, button)
-        #}
-        #frame <- gtkFrame("Entropys")
-        #frame$add(vbox)
-        #dialog[["vbox"]]$add(frame)
-        #if (dialog$run() == GtkResponseType["ok"]) dialog$destroy()
         entropyPlane(time,svalue(text6),svalue(cb2,index=TRUE)+3,svalue(text2),1,1,0)
         name = "myEntropy.png"
       }else{
@@ -215,8 +208,8 @@ tbl[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
       
     }
   }else{
-        alert = 1
-        missingParameter = paste(missingParameter," Time series file.")    
+    alert = 1
+    missingParameter = paste(missingParameter," Time series file.")    
   }
   if(alert==1){
     dialog <- gtkMessageDialog(NULL, "destroy-with-parent","info", "ok", missingParameter)
@@ -224,7 +217,6 @@ tbl[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
   }
   result = as.character(finalResult)
   svalue(img)<- name
-  tbl[6,3] <- (text1 <- gedit(result,container=tbl,coerce.with=as.numeric))
-  #tbl[6,3] <- (text1 <- gtext(result,container = tbl,width = 100,height = 50))
+  tbl[2,15] <- (text1 <- gedit(result,container=tbl,coerce.with=as.numeric))
 })
 
