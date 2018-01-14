@@ -57,8 +57,6 @@ partitionMPR<-function(series,dimension,delay,partition){
     entropy = shannonEntropyNormalized(probability)
     complexity = Ccomplexity(probability)
   }
-  print(entropy)
-  print(complexity)
   c1x = readingMPR(dimension,1)
   c1y = readingMPR(dimension,2)
   c2x = readingMPR(dimension,3)
@@ -69,4 +67,6 @@ partitionMPR<-function(series,dimension,delay,partition){
     geom_line(aes(x=c1x,c1y)) + geom_point(aes(x=entropy,y=complexity),color="blue")
   print(p)
   dev.off()
+  print(entropy)
+  print(complexity)
 }

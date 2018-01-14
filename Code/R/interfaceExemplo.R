@@ -18,7 +18,6 @@ require(gWidgetsRGtk2)
 require(RGtk2)
 options(guiToolkit="RGtk2")
 
-cont = 0
 contFiles = 0
 write.table(cont,file="GraphControl.txt")
 write.table(contFiles,file="AuxResult.txt")
@@ -39,13 +38,14 @@ frame <- gframe ( "RESULT:" , cont = group, horizontal = TRUE ,expand=TRUE)
 size(frame)<-c(480,200)
 tbl=glayout(cont=frame)
 tbl[2,2] <- glabel("VALUE OF THE RESULT")
-tbl[2,15] <- (text1 <- gedit("",container=tbl,coerce.with=as.numeric))
+tbl[2,14] <- (text1 <- gedit("",container=tbl,coerce.with=as.numeric))
 tbl[4,2] <- glabel("TIME SERIES SIZE")
-tbl[4,15] <- (text2 <- gedit("",container=tbl,coerce.with=as.numeric))
+tbl[4,14] <- (text2 <- gedit("",container=tbl,coerce.with=as.numeric))
 tbl[6,2] <- glabel("PERCENTAGE OF EQUAL VALUES")
-tbl[6,15] <- (text3 <- gedit("",container=tbl,coerce.with=as.numeric))
+tbl[6,14] <- (text3 <- gedit("",container=tbl,coerce.with=as.numeric))
+exportOptions = c("YES", "NO")
 tbl[8,2] <- glabel("EXPORT RESULT")
-tbl[8,15] <- gbutton("RESULT.TXT",container=tbl,handler=function(a=1,b=2){})
+tbl[8,14] <- (cb0 <- gcombobox(exportOptions,container=tbl))
 #---------------------------------------XXX-------------------------------------------
 frame2<- gframe ("PARAMETERS:",cont=group,horizontal=TRUE,expand=TRUE)
 size(frame2)<-c(480,450)
@@ -60,7 +60,7 @@ tbl2[2,2] = myFile = gfilebrowse (text = "Select file...", type = "open", quote 
                          filter = list("Text File" = list(patterns = c("*.csv"))),      
                          container = tbl)
 tbl2[4,2] <- glabel("FUNCTION")
-tbl2[4,3] <- (cb1 <- gcombobox(fun,container=tbl))
+tbl2[4,3] <- (cb1 <- gcombobox(fun,container=tbl2))
 tbl2[6,2] =glabel("DIMENSION")
 tbl2[6,3] <- (cb2 <- gcombobox(dim, cont=tbl2))
 tbl2[8,2] =glabel("DELAY")
@@ -87,7 +87,7 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
     nameResult = paste(nameResult,toString(contFiles))
   }
   nameResult = paste(nameResult,".txt")
-  print(nameResult)
+  contFiles = contFiles + 1
   missingParameter = "The desired functionality could not be performed, the parameters are missing:"
   myResult = svalue(cb1,index=TRUE)
   if(svalue(myFile) != "Select file..."){
@@ -98,6 +98,11 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
     }
     time = na.omit(time)
     size = length(time)
+    write.table(contFiles,"AuxResult.txt")
+    equals = equalitiesValues(time) 
+    cat(paste("TIME SERIES SIZE:",size), "\n", file=nameResult, append=FALSE, sep='')
+    cat(paste("PERCENTAGE OF EQUALS VALUES:",equals), "\n", file=nameResult, append=TRUE, sep='')
+    cat(paste("FUNCTION:",fun[myResult]), "\n", file=nameResult, append=TRUE, sep='')
     alert = finalResult = 0
     if((myResult == 4) ||(myResult == 5) ||(myResult == 6) || (myResult == 7) ||(myResult == 8) ||(myResult == 12) ||
        (myResult == 1) ||(myResult == 13) ||(myResult == 22) ||(myResult == 9)){ 
@@ -126,7 +131,7 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
         }else if(myResult == 17){
           finalResult = WPE(time,svalue(cb2,index=TRUE)+3,svalue(text2))
         }else if(myResult == 22){
-          histogram(time,svalue(cb2,index=TRUE)+3,svalue(text2))
+          finalResult  = histogram(time,svalue(cb2,index=TRUE)+3,svalue(text2))
           name = "myHistogram.png"
         }else if(myResult == 9){
           finalResult = jensenDivergence(probability)
@@ -165,7 +170,7 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
       }
     }else if((myResult == 14)){
       if((!is.na(svalue(text5)))&&(!is.na(svalue(text6)))){
-        saxPlot(time,svalue(text5),svalue(text6))
+        finalResult  = saxPlot(time,svalue(text5),svalue(text6))
         name = "mySAX.png"
       }else{
         alert = 1
@@ -173,7 +178,7 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
       }
     }else if((myResult == 15)){
       if((!is.na(svalue(text7)))){
-        PIP(time,svalue(text7))
+        finalResult  = PIP(time,svalue(text7))
         name = "myPIP.png"
       }else{
         alert = 1
@@ -181,7 +186,7 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
       }
     }else if((myResult == 16)){
       if((!is.na(svalue(text6)))){
-        plotPAA(time,svalue(text6))
+        finalResult  = plotPAA(time,svalue(text6))
         name = "myPAA.png"
       }else{
         alert = 1
@@ -189,7 +194,7 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
       }
     }else if((myResult == 18)){
       if((!is.na(svalue(text2)))&&(!is.na(svalue(text6)))&&(!is.na(svalue(cb2,index=TRUE)))){
-        entropyPlane(time,svalue(text6),svalue(cb2,index=TRUE)+3,svalue(text2),1,1,0)
+        finalResult  = entropyPlane(time,svalue(text6),svalue(cb2,index=TRUE)+3,svalue(text2),1,1,0)
         name = "myEntropy.png"
       }else{
         alert = 1
@@ -204,15 +209,8 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
         missingParameter = paste(missingParameter," Dimension, delay and partitions.")
       }
     }else if(myResult == 20){
-      cont = read.table("GraphControl.txt")
       time_series(time,cont)
-      if(cont%%2==0){
-        name = "myplot.png"
-      }else{
-        name = "myplot2.png"
-      }
-      cont=cont+1
-      write.table(cont,file="GraphControl.txt")
+      name = "myplot.png"
       
     }
   }else{
@@ -224,12 +222,10 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
     if (dialog$run() == GtkResponseType["ok"]) dialog$destroy()
   }
   result = as.character(finalResult)
-  svalue(img)<- name
-  equals = equalitiesValues(time)
-  contFiles = contFiles + 1
-  write.table(contFiles,"AuxResult.txt")  
-  tbl[6,15] <- (text3 <- gedit(equals,container=tbl,coerce.with=as.numeric))
-  tbl[2,15] <- (text1 <- gedit(result,container=tbl,coerce.with=as.numeric))
-  tbl[4,15] <- (text2 <- gedit(size,container=tbl,coerce.with=as.numeric))
+  svalue(img)<- name 
+  tbl[6,14] <- (text3 <- gedit(equals,container=tbl,coerce.with=as.numeric))
+  tbl[2,14] <- (text1 <- gedit(result,container=tbl,coerce.with=as.numeric))
+  tbl[4,14] <- (text2 <- gedit(size,container=tbl,coerce.with=as.numeric))
+  cat(paste("RESULT:",result), "\n", file=nameResult, append=TRUE, sep='')
 })
 

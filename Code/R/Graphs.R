@@ -73,6 +73,7 @@ histogram<-function(serie,dimension,delay){
     ggtitle("Histogram of the patterns") + theme(plot.title = element_text(hjust=0.5))
   print(p)
   dev.off()
+  print(symbol)
   return(symbol)
 }
 
