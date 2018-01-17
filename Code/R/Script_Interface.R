@@ -51,7 +51,7 @@ dim = c("3","4","5","6")
 fun = c("Shannon Entropy" , "Tsallis Entropy", "Renyi Entropy","Euclidian Distance","Quadratic Euclidian Distance"
     ,"Manhattan Distance","Chebyshev Distance","Hellinger Distance","Jensen Divergence","Wootter Distance","Kullback Leibler Divergence",
     "Statistical Complexity","Permutation Min Entropy","Symbolic Aggregate Approximation","Perceptually Important Points","Piecewise Aggregate Approximation",
-    "Bandt and Pompe Weigth","Entropy Plane","HC Plane","Time Series Plane","Patterns on Graph","Histogram")
+    "Bandt and Pompe Weigth","Entropy Plane","HC Plane","Time Series Plane","Histogram")
 tbl2[2,2] = myFile = gfilebrowse (text = "Select file...", type = "open", quote = FALSE,
                          filter = list("Text File" = list(patterns = c("*.csv"))),      
                          container = tbl)
@@ -93,7 +93,7 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
     equals = equalitiesValues(time) 
     alert = finalResult = 0
     if((myResult == 4) ||(myResult == 5) ||(myResult == 6) || (myResult == 7) ||(myResult == 8) ||(myResult == 12) ||
-       (myResult == 1) ||(myResult == 13) ||(myResult == 22) ||(myResult == 9)){ 
+       (myResult == 1) ||(myResult == 13) ||(myResult == 21) ||(myResult == 9)){ 
       if(!is.na(svalue(text2))){
         if(svalue(cb3,index=TRUE)==1){
           probability = distribution(time,svalue(cb2,index=TRUE)+3,svalue(text2),1)
@@ -116,7 +116,7 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
           finalResult = shannonEntropyNormalized(probability)
         }else if(myResult == 13){
           finalResult = PMEUnidimensional(probability)
-        }else if(myResult == 22){
+        }else if(myResult == 21){
           histogram(time,svalue(cb2,index=TRUE)+3,svalue(text2))
           name = "myHistogram.png"
         }else if(myResult == 9){
@@ -146,15 +146,17 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
         alert = 1
         missingParameter = paste(missingParameter," Dimension, delay, q and distribution.")
       }
-    }else if((myResult == 21)){
-      if((!is.na(svalue(text4)))&&(!is.na(svalue(text2)))&&(!is.na(svalue(cb2,index=TRUE)))){
-        patternsOnGraph(time,svalue(cb2,index=TRUE)+3,svalue(text2),svalue(text4))
-        name = "myPattern.png"
-      }else{
-        alert = 1
-        missingParameter = paste(missingParameter," Dimension, delay and Pattern")
-      }
-    }else if((myResult == 14)){
+    }
+    #else if((myResult == 21)){
+     # if((!is.na(svalue(text4)))&&(!is.na(svalue(text2)))&&(!is.na(svalue(cb2,index=TRUE)))){
+      #  patternsOnGraph(time,svalue(cb2,index=TRUE)+3,svalue(text2),svalue(text4))
+       # name = "myPattern.png"
+      #}else{
+       # alert = 1
+       # missingParameter = paste(missingParameter," Dimension, delay and Pattern")
+      #}
+    #}
+    else if((myResult == 14)){
       if((!is.na(svalue(text5)))&&(!is.na(svalue(text6)))){
         saxPlot(time,svalue(text5),svalue(text6))
         name = "mySAX.png"
@@ -216,7 +218,7 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
   result = toString(finalResult)
   svalue(img)<- name 
   tbl[6,14] <- (text3 <- gedit(equals,container=tbl,coerce.with=as.numeric))
-  if(myResult != 22 && myResult != 18 && myResult!=15 && myResult!=16 && myResult!=19)   tbl[2,14] <- (text1 <- gedit(result,container=tbl,coerce.with=as.numeric))
+  if(myResult != 21 && myResult != 18 && myResult!=15 && myResult!=16 && myResult!=19)   tbl[2,14] <- (text1 <- gedit(result,container=tbl,coerce.with=as.numeric))
   tbl[4,14] <- (text2 <- gedit(size,container=tbl,coerce.with=as.numeric))
   if(svalue(cb0,index=TRUE) == 1){
     nameResult = "result"
