@@ -67,6 +67,8 @@ partitionMPR<-function(series,dimension,delay,partition){
     geom_line(aes(x=c1x,c1y)) + geom_point(aes(x=entropy,y=complexity),color="blue")
   print(p)
   dev.off()
-  print(entropy)
-  print(complexity)
+  data = matrix(nrow = partition, ncol = 2)
+  data[,1] = entropy
+  data[,2] = complexity
+  return(data)
 }

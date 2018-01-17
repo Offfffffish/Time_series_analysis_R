@@ -2,12 +2,8 @@ library(combinat)
 library(ggplot2)
 library(dygraphs)
 
-time_series<-function(serie,cont){ 
-  if(cont%%2==0){
-    png("myplot.png")
-  }else{
-    png("myplot2.png")
-  }
+time_series<-function(serie){ 
+  png("myplot.png")
   p = qplot(x=c(1:length(serie)),y=serie,geom="line",xlab="Time",ylab="Serie") +
     ggtitle("Graphic of time serie") + theme(plot.title = element_text(hjust=0.5))
   print(p)
@@ -53,7 +49,8 @@ patternsOnGraph<-function(serie,dimension,delay,number_of_pattern,points = 0){
   dev.off()
 }
 
-histogram<-function(serie,dimension,delay){
+
+histogram<-function(serie,dimension,delay, option){
   fat=factorial(dimension)
   p_patterns <- formationPattern(serie,dimension,delay)
   n_symbols <- dim(p_patterns)[1]
@@ -73,7 +70,7 @@ histogram<-function(serie,dimension,delay){
     ggtitle("Histogram of the patterns") + theme(plot.title = element_text(hjust=0.5))
   print(p)
   dev.off()
-  print(symbol)
+  symbol = toString(symbol)
   return(symbol)
 }
 

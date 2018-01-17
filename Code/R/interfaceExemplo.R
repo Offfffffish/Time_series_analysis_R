@@ -19,7 +19,6 @@ require(RGtk2)
 options(guiToolkit="RGtk2")
 
 contFiles = 0
-write.table(cont,file="GraphControl.txt")
 write.table(contFiles,file="AuxResult.txt")
 win=gwindow("TIME SERIES ANALYSIS  ")
 img <- gdkPixbufNewFromFile("icone.png")
@@ -81,13 +80,6 @@ tbl2[22,3] <- (cb3 <- gcombobox(dist, cont=tbl2))
 
 tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
   name = "grafico.png"
-  nameResult = "result"
-  contFiles = read.table("AuxResult.txt")
-  if(contFiles != 0){
-    nameResult = paste(nameResult,toString(contFiles))
-  }
-  nameResult = paste(nameResult,".txt")
-  contFiles = contFiles + 1
   missingParameter = "The desired functionality could not be performed, the parameters are missing:"
   myResult = svalue(cb1,index=TRUE)
   if(svalue(myFile) != "Select file..."){
@@ -98,11 +90,7 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
     }
     time = na.omit(time)
     size = length(time)
-    write.table(contFiles,"AuxResult.txt")
     equals = equalitiesValues(time) 
-    cat(paste("TIME SERIES SIZE:",size), "\n", file=nameResult, append=FALSE, sep='')
-    cat(paste("PERCENTAGE OF EQUALS VALUES:",equals), "\n", file=nameResult, append=TRUE, sep='')
-    cat(paste("FUNCTION:",fun[myResult]), "\n", file=nameResult, append=TRUE, sep='')
     alert = finalResult = 0
     if((myResult == 4) ||(myResult == 5) ||(myResult == 6) || (myResult == 7) ||(myResult == 8) ||(myResult == 12) ||
        (myResult == 1) ||(myResult == 13) ||(myResult == 22) ||(myResult == 9)){ 
@@ -128,10 +116,8 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
           finalResult = shannonEntropyNormalized(probability)
         }else if(myResult == 13){
           finalResult = PMEUnidimensional(probability)
-        }else if(myResult == 17){
-          finalResult = WPE(time,svalue(cb2,index=TRUE)+3,svalue(text2))
         }else if(myResult == 22){
-          finalResult  = histogram(time,svalue(cb2,index=TRUE)+3,svalue(text2))
+          histogram(time,svalue(cb2,index=TRUE)+3,svalue(text2))
           name = "myHistogram.png"
         }else if(myResult == 9){
           finalResult = jensenDivergence(probability)
@@ -170,7 +156,7 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
       }
     }else if((myResult == 14)){
       if((!is.na(svalue(text5)))&&(!is.na(svalue(text6)))){
-        finalResult  = saxPlot(time,svalue(text5),svalue(text6))
+        saxPlot(time,svalue(text5),svalue(text6))
         name = "mySAX.png"
       }else{
         alert = 1
@@ -202,14 +188,19 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
       }
     }else if((myResult == 19)){    
       if((!is.na(svalue(text2)))&&(!is.na(svalue(text6)))){
-        partitionMPR(time,svalue(cb2,index=TRUE)+3,svalue(text2),svalue(text6))
+        dataP  = partitionMPR(time,svalue(cb2,index=TRUE)+3,svalue(text2),svalue(text6))
+        finalResult = "\n Entropy \t Complexity \n"
+        for(i in 1:dim(dataP)[1]){
+          dataPA = paste(toString(dataP[i,1:2]),"\n")
+          finalResult = paste(finalResult,dataPA)
+        }
         name = "myHC.png"
       }else{
         alert = 1
         missingParameter = paste(missingParameter," Dimension, delay and partitions.")
       }
     }else if(myResult == 20){
-      time_series(time,cont)
+      time_series(time)
       name = "myplot.png"
       
     }
@@ -221,11 +212,25 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
     dialog <- gtkMessageDialog(NULL, "destroy-with-parent","info", "ok", missingParameter)
     if (dialog$run() == GtkResponseType["ok"]) dialog$destroy()
   }
-  result = as.character(finalResult)
+  #result = as.character(finalResult)
+  result = toString(finalResult)
   svalue(img)<- name 
   tbl[6,14] <- (text3 <- gedit(equals,container=tbl,coerce.with=as.numeric))
-  tbl[2,14] <- (text1 <- gedit(result,container=tbl,coerce.with=as.numeric))
+  if(myResult != 22 && myResult != 18 && myResult!=15 && myResult!=16 && myResult!=19)   tbl[2,14] <- (text1 <- gedit(result,container=tbl,coerce.with=as.numeric))
   tbl[4,14] <- (text2 <- gedit(size,container=tbl,coerce.with=as.numeric))
-  cat(paste("RESULT:",result), "\n", file=nameResult, append=TRUE, sep=''   )
+  if(svalue(cb0,index=TRUE) == 1){
+    nameResult = "result"
+    contFiles = read.table("AuxResult.txt")
+    if(contFiles != 0){
+      nameResult = paste(nameResult,toString(contFiles))
+    } 
+    nameResult = paste(nameResult,".txt")
+    contFiles = contFiles + 1
+    write.table(contFiles,"AuxResult.txt")
+    cat(paste("TIME SERIES SIZE:",size), "\n", file=nameResult, append=FALSE, sep='')
+    cat(paste("PERCENTAGE OF EQUALS VALUES:",equals), "\n", file=nameResult, append=TRUE, sep='')
+    cat(paste("FUNCTION:",fun[myResult]), "\n", file=nameResult, append=TRUE, sep='')
+    cat(paste("RESULT:",result), "\n", file=nameResult, append=TRUE, sep='')
+  }
 })
 
