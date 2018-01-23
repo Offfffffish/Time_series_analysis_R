@@ -1,0 +1,7 @@
+x11()
+x = rnorm(20)
+y = rnorm(20)
+plot(x, y)
+id = identify(x, y, n = 1, pos = FALSE,plot = FALSE)
+print(x[id])
+print(y[id])

@@ -13,6 +13,7 @@ source(file.path('Read.R'))
 source(file.path('SAX.R'))
 library(ggplot2)
 library(dygraphs)
+#library(plotly)
 require(gWidgets2)
 require(gWidgetsRGtk2)
 require(RGtk2)
@@ -83,12 +84,7 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
   missingParameter = "The desired functionality could not be performed, the parameters are missing:"
   myResult = svalue(cb1,index=TRUE)
   if(svalue(myFile) != "Select file..."){
-    time=read.csv(svalue(myFile), stringsAsFactors=T, fileEncoding="latin1",sep=";")
-    time = time[,2]
-    if(mode(time)=="character"){
-      time = type.convert(time)
-    }
-    time = na.omit(time)
+    time = Read_csv_interface(myFile,2)
     size = length(time)
     equals = equalitiesValues(time) 
     alert = finalResult = 0

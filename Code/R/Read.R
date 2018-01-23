@@ -28,3 +28,16 @@ Read_csv<-function(column,separador=";"){
   data = na.omit(data)
   return(data)
 }
+
+#option == 0 -> Manter os valores repetidos
+#Option != 0 -> Retirar os valores repetidos
+Read_csv_interface<-function(file, column, option = 0){  
+    time=read.csv(svalue(file), stringsAsFactors=T, fileEncoding="latin1",sep=";")
+    time = time[,column]
+    if(mode(time)=="character"){
+      time = type.convert(time)
+    }
+    time = na.omit(time)
+    if(option!=0) time = unq
+    return(time)
+}

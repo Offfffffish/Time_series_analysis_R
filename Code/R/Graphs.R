@@ -1,11 +1,13 @@
 library(combinat)
 library(ggplot2)
 library(dygraphs)
+#library(plotly)
 
 time_series<-function(serie){ 
   png("myplot.png")
   p = qplot(x=c(1:length(serie)),y=serie,geom="line",xlab="Time",ylab="Serie") +
     ggtitle("Graphic of time serie") + theme(plot.title = element_text(hjust=0.5))
+  #(gg <- ggplotly(p))
   print(p)
   dev.off()
 }
