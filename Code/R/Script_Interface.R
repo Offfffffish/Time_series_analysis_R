@@ -226,7 +226,7 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
     contFiles = contFiles + 1
     write.table(contFiles,"AuxResult.txt")
     cat(paste("TIME SERIES SIZE:",size), "\n", file=nameResult, append=FALSE, sep='')
-    cat(paste("PERCENTAGE OF EQUALS VALUES:",equals), "\n", file=nameResult, append=TRUE, sep='')
+    cat(paste("PERCENTAGE OF EQUAL VALUES:",equals), "\n", file=nameResult, append=TRUE, sep='')
     cat(paste("FUNCTION:",fun[myResult]), "\n", file=nameResult, append=TRUE, sep='')
     cat(paste("RESULT:",result), "\n", file=nameResult, append=TRUE, sep='')
   }
