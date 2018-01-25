@@ -1,18 +1,9 @@
 #Bibliotecas utilizadas#
 library(combinat)
 
-definePatterns<-function(dimension,option=0){
-  lista = permn(dimension) 
-  fat = factorial(dimension)
-  symbol = matrix(nrow = fat,ncol = dimension)
-  for(i in 1:fat){
-    v=lista[i]
-    symbol[i,]=unlist(v)
-  }
-  if(option)
-    return(symbol[option,])
-  else
-    return(symbol)
+definePatterns<-function(dimension){
+  symbol = matrix(unlist(permn(dimension)),nrow = factorial(dimension),ncol = dimension)
+  symbol
 }
 
 #Option = 0 -> return p_patterns
@@ -70,28 +61,24 @@ formationPattern<-function(series,dimension,delay,option=0){
 }
 
 
-distribution<-function(serie,dimension,delay,option=1){  
+distribution<-function(serie,dimension,delay){  
   fat = factorial(dimension)
-  f_absolute = probability = rep(0,fat)
-  initial = 1
-  end = length(serie)
+  probability = rep(0,fat)
   p_patterns <- formationPattern(serie,dimension,delay)
+  print(p_patterns)
   p_patterns <- newPatterns(p_patterns)
+  print(p_patterns)
   n_symbols <- dim(p_patterns)[1]
   symbols <- definePatterns(dimension)
   for(i in 1:fat){
     for(j in 1:n_symbols){
       if(all(p_patterns[j,] == symbols[i,])){ 
-        f_absolute[i]=f_absolute[i]+1
+        probability[i]=probability[i]+1
       }
     }
   }
-  probability = f_absolute/n_symbols
-  if(!option){
-    return(f_absolute)
-  }else{
-    return(probability)
-  }
+  probability = probability/n_symbols
+  probability
 }
 
 

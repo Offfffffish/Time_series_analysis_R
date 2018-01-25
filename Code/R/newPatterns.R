@@ -1,3 +1,4 @@
+#Trata padrões com elemento repetidos
 newPatterns<-function(patterns){
   n_patterns = dim(patterns)[1]
   dimension = dim(patterns)[2]

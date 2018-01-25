@@ -1,6 +1,6 @@
 #Leitura de dados em arquivos#
 
-#Leitura do arquivo .txt e armazenamento do conteúdo em um array#
+#Leitura do arquivo .txt e armazenamento do conte?do em um array#
 Read_txt<-function(name,column){
   data = read.table(name, stringsAsFactors=FALSE, fileEncoding="latin1")
   data = data[,column]
@@ -18,7 +18,7 @@ Read_txt2<-function(column){
   return(data)
 }
 
-#Leitura do arquivo .csv e armazenamento do conteúdo em um array#
+#Leitura do arquivo .csv e armazenamento do conte?do em um array#
 Read_csv<-function(column,separador=";"){
   data=read.csv(file.choose(), stringsAsFactors=T, fileEncoding="latin1",sep=separador)
   data = data[,column]
@@ -38,6 +38,6 @@ Read_csv_interface<-function(file, column, option = 0){
       time = type.convert(time)
     }
     time = na.omit(time)
-    if(option!=0) time = unq
+    if(option!=0) time = unique(time)
     return(time)
 }
