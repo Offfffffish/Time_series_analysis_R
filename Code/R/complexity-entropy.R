@@ -1,9 +1,4 @@
 library(ggplot2)
-#source(file.path('Entropys.R'))
-#source(file.path('Distances.R'))
-#source(file.path('Read.R'))
-#source(file.path('GraficoG.R'))
-#source(file.path('teste.R'))
 require(ggthemes)
 
 
