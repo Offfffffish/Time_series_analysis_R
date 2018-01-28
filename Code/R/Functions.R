@@ -1,63 +1,26 @@
-#Bibliotecas utilizadas#
 library(combinat)
 
 definePatterns<-function(dimension){
-  symbol = matrix(unlist(permn(dimension)),nrow = factorial(dimension),ncol = dimension)
+  symbol = matrix(unlist(permn(dimension)),nrow = factorial(dimension),ncol = dimension,byrow = TRUE)
+  symbol = symbol - 1
   symbol
 }
 
-#Option = 0 -> return p_patterns
-#Option = 1 -> return n_symbols
-#Option = 2 -> return elements
-#Option = 3 -> return index
-formationPattern<-function(series,dimension,delay,option=0){
-  n_symbols = 1
-  i = first = 1
+formationPattern<-function(series,dimension,delay){
+  n_symbols = i = 1
   n = length(series)
-  elements = p_patterns = index = matrix(nrow=n,ncol=dimension)
-  orde = matrix(nrow = 1, ncol = dimension)    
-  while(i <= n){      
-    for(j in 1:dimension){
-      elements[n_symbols,j]=series[i]
-      index[n_symbols,j]=i
-      i = i + 1
-      if(i >= n+1){
-        break
-      }
-    }      
-    if(j==dimension && i<= n+1){ 
-      orde[1,]=order(elements[n_symbols,])
-      #busca linear
-      for(a in 1:dimension){
-        for(b in 1:dimension){
-          if(elements[n_symbols,orde[1,a]] == elements[n_symbols,b]){
-            p_patterns[n_symbols,b]=a
-          }
-        }
-      }
-      i=(first+delay)
-      first=i
-      n_symbols=n_symbols+1
-    }      
-    else{
-      break
-    }
+  p_patterns = matrix(nrow=n,ncol=dimension)
+  index = c(0:(dimension-1)) 
+  while(i <= n){    
+    first = i
+    if((i+dimension-1)<=n){
+      p_patterns[n_symbols,] = index[order(series[i:(i+dimension-1)])]
+      i = first + delay
+      n_symbols = n_symbols + 1
+    }else break
   }
-  aux = na.omit(elements)
-  n_symbols = dim(aux)[1]
-  if(option == 0){
-    p_patterns = na.omit(p_patterns)
-    return ( p_patterns[1:dim(p_patterns)[1],])
-  }
-  else if(option == 1){
-    return (n_symbols)
-  }
-  else if(option == 2){
-    return (aux)
-  }
-  else if(option == 3){
-    return(index)
-  }
+  p_patterns = na.omit(p_patterns)
+  p_patterns[1:dim(p_patterns)[1],]
 }
 
 
@@ -65,9 +28,6 @@ distribution<-function(serie,dimension,delay){
   fat = factorial(dimension)
   probability = rep(0,fat)
   p_patterns <- formationPattern(serie,dimension,delay)
-  print(p_patterns)
-  p_patterns <- newPatterns(p_patterns)
-  print(p_patterns)
   n_symbols <- dim(p_patterns)[1]
   symbols <- definePatterns(dimension)
   for(i in 1:fat){
