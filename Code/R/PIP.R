@@ -41,10 +41,10 @@ PIP<-function(serie,numberPIPs){
     result[n] = pip[n]
   }
   pip = sort(pip)
-  png("myPIP.png")
+  #png("myPIP.png")
   p = p + geom_line(aes(x=pip,y=serie[pip]),colour="red") +
       geom_text(aes(x=pip,y=serie[pip]*1.1,label=texto,colour="black"))
   print(p)
-  dev.off()
+  #dev.off()
   return(result)
 }

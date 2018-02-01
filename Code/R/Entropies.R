@@ -1,33 +1,33 @@
-shannonEntropy <- function(probability){
-  h <- probability * log(probability)
+shannonEntropy <- function(p){
+  h <- p * log(p)
   h[is.nan(h)] <- 0
   return(-sum(h))
 }
 
-shannonEntropyNormalized <- function(probability){
-  return(shannonEntropy(probability)/log(length(probability)))
+shannonNormalized <- function(p){
+  return(shannonEntropy(p)/log(length(p)))
 }
 
-tsallisEntropy <- function(probability,q){  
-  entropy = sum(probability^q)
+tsallisEntropy <- function(p,q){  
+  entropy = sum(p^q)
   entropy = (1 - entropy)/(q - 1)
   entropy
 }
 
-tsallisEntropyNormalized <- function(probability,q){  
-  ent_max = (1 - (length(probability)^(1 - q)))/(q - 1)
-  return(tsallisEntropy(probability,q)/ent_max)
+tsallisNormalized <- function(p,q){  
+  ent_max = (1 - (length(p)^(1 - q)))/(q - 1)
+  return(tsallisEntropy(p,q)/ent_max)
 }
 
-renyiEntropy <- function(probability,q){
-  entropy = sum(probability^q)
+renyiEntropy <- function(p,q){
+  entropy = sum(p^q)
   entropy = log(entropy)
   entropy = entropy/(1 - q)
   entropy
 }
 
-renyiEntropyNormalized <- function(probability,q){ 
-  return(renyiEntropy(probability,q)/log(length(probability)))
+renyiNormalized <- function(p,q){ 
+  return(renyiEntropy(p,q)/log(length(p)))
 }
   
   

@@ -1,6 +1,6 @@
 source(file.path('Graphs.R'))
 source(file.path('Functions.R'))
-source(file.path('Entropys.R'))
+source(file.path('Entropies.R'))
 source(file.path('complexity-entropy.R'))
 source(file.path('Distances.R'))
 source(file.path('Equalities-PME.R'))

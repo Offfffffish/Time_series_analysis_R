@@ -1,43 +1,43 @@
-euclidian_distance<-function(probability){
-  return(sqrt(squared_euclidian_distance(probability)))
+euclidianDistance<-function(p){
+  return(sqrt(squaredDistance(p)))
 }
 
-squared_euclidian_distance<-function(probability){
-  cc = rep(1/length(probability),length(probability))
-  distance = sum((probability-cc)^2)
+squaredDistance<-function(p){
+  cc = rep(1/length(p),length(p))
+  distance = sum((p-cc)^2)
   return(distance)
 }
 
-manhattan_distance<-function(probability){
-  cc = rep(1/length(probability),length(probability))
-  distance = sum(abs(probability-cc))
+manhattanDistance<-function(p){
+  cc = rep(1/length(p),length(p))
+  distance = sum(abs(p-cc))
   return(distance)
 }
 
-chebyshev_distance<-function(probability){
-  cc = rep(1/length(probability),length(probability))
-  distance = abs(probability - cc)
+chebyshevDistance<-function(p){
+  cc = rep(1/length(p),length(p))
+  distance = abs(p - cc)
   return(max(distance))
 }
 
-kullback_leibler_divergence<-function(probability){
-  cc = rep(1/length(probability),length(probability))
-  distance = probability * log(probability/cc)
+kullbackDivergence<-function(p){
+  cc = rep(1/length(p),length(p))
+  distance = p * log(p/cc)
   distance[is.nan(distance)||is.infinite(distance)] <- 0
   return(sum(distance))
 }
 
-hellinger_distance<-function(probability){
-  cc = rep(1/length(probability),length(probability))
-  distance = sum((sqrt(probability)-sqrt(cc))^2)*0.5
+hellingerDistance<-function(p){
+  cc = rep(1/length(p),length(p))
+  distance = sum((sqrt(p)-sqrt(cc))^2)*0.5
   return(sqrt(distance))
 }
 
-jensen_divergence<-function(probability){
-  cc = rep(1/length(probability),length(probability))
-  s_p = shannonEntropy(probability)
+jensenDivergence<-function(p){
+  cc = rep(1/length(p),length(p))
+  s_p = shannonEntropy(p)
   s_q = shannonEntropy(cc)
-  s_pq = shannonEntropy((probability+cc)/2)
+  s_pq = shannonEntropy((p+cc)/2)
   divergence = sum(s_pq - (s_p/2) - (s_q/2))
   return(divergence)
 }
@@ -56,23 +56,23 @@ Ccomplexity<-function(p){
   return(cc)
 }
 
-wootters_distance<-function(probability,q){
-  cc = rep(1/length(probability),length(probability))
-  distance = sum(sqrt(probability*cc))
+woottersDistance<-function(p,q){
+  cc = rep(1/length(p),length(p))
+  distance = sum(sqrt(p*cc))
   distance = acos(distance)
   return(distance)
 }
 
-bhattacharyya_distance<-function(probability){
-  cc = rep(1/length(probability),length(probability))
-  distance = sum(sqrt(probability*cc))
+bhattacharyyaDistance<-function(p){
+  cc = rep(1/length(p),length(p))
+  distance = sum(sqrt(p*cc))
   distance = -log(distance)
   distance
 }
 
-harmonic_mean<-function(probability){
-  cc = rep(1/length(probability),length(probability))
-  harmonic = sum((probability*cc)/(probability+cc))
+harmonicMean<-function(p){
+  cc = rep(1/length(p),length(p))
+  harmonic = sum((p*cc)/(p+cc))
   harmonic[is.nan(harmonic)||is.infinite(harmonic)] <- 0
   return(2*harmonic)
 }

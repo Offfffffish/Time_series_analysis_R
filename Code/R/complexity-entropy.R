@@ -30,9 +30,9 @@ readingMPR<-function(dimension,option=0){
 }
 
 # Partition indicates the number of parts in which we divide the series
-partitionMPR<-function(series,dimension,delay,partition){
+partitionMPR<-function(serie,dimension,delay,partition){
   complexity = entropy = rep(0,partition)
-  div = floor(length(series)/partition)
+  div = floor(length(serie)/partition)
   if(partition != 1){
     for(i in 1:partition){
       initial = ((i-1)*div)
@@ -41,14 +41,14 @@ partitionMPR<-function(series,dimension,delay,partition){
         initial = 1
         end = div
       }
-      aux = series[initial:end]
+      aux = serie[initial:end]
       probability = distribution(aux,dimension,delay)
       entropy[i] = shannonEntropyNormalized(probability)
       complexity[i] = Ccomplexity(probability)
     }
   }
   else{
-    probability = distribution(series,dimension,delay)
+    probability = distribution(serie,dimension,delay)
     entropy = shannonEntropyNormalized(probability)
     complexity = Ccomplexity(probability)
   }
@@ -56,12 +56,12 @@ partitionMPR<-function(series,dimension,delay,partition){
   c1y = readingMPR(dimension,2)
   c2x = readingMPR(dimension,3)
   c2y = readingMPR(dimension,4)
-  png("myHC.png")
+  #png("myHC.png")
   p = qplot(x=c2x,y=c2y,geom="line",xlab="Shannon Entropy",ylab="MPR Statistical Complexity") +
     ggtitle("Entropy-Complexity Plane") + theme(plot.title = element_text(hjust=0.5)) +
     geom_line(aes(x=c1x,c1y)) + geom_point(aes(x=entropy,y=complexity),color="blue")
   print(p)
-  dev.off()
+  #dev.off()
   data = matrix(nrow = partition, ncol = 2)
   data[,1] = entropy
   data[,2] = complexity

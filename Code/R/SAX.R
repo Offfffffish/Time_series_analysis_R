@@ -12,17 +12,17 @@ breakpoints<-function(numberSymbols){
   na.omit(lookup[,numberSymbols])
 }
 
-zNormalization<-function(series){
-  (series - mean(series))/sd(series)
+zNormalization<-function(serie){
+  (serie - mean(serie))/sd(serie)
 }
 
-saxPlot<-function(series,numberSymbols,size){
+saxPlot<-function(serie,numberSymbols,size){
   letters = c("a","b","c","d","e","f","g","h","j","k")
   sax = ""
-  series = zNormalization(series)
+  serie = zNormalization(serie)
   segm = rep(0,size+1)
   Psax = rep(0,size)
-  segm[1:size] = paa(series,size)
+  segm[1:size] = paa(serie,size)
   segm[size+1] = segm[size]
   point = breakpoints(numberSymbols)
   for(i in 1:size){
@@ -41,12 +41,12 @@ saxPlot<-function(series,numberSymbols,size){
     }
   }
   steps = data.frame(x=vline,y=segm)
-  png("mySAX.png")
+  #png("mySAX.png")
   p = qplot(geom="line",xlab="Time",ylab="Serie") +
     ggtitle("Symbolic Aggregate Approximation") + theme(plot.title = element_text(hjust=0.5)) +
     geom_hline(yintercept=point) + geom_step(data = steps,aes(x=x,y=y),colour="black") +
     geom_text(aes(x=(vline[1:(length(vline)-1)]+vline[2:length(vline)])/2,y=segm[1:(length(segm)-1)],label=letters[Psax],colour="red"))
   print(p)
-  dev.off()
+  #dev.off()
   return(sax)
 }

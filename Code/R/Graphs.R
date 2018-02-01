@@ -3,13 +3,12 @@ library(ggplot2)
 library(dygraphs)
 #library(plotly)
 
-time_series<-function(serie){ 
-  png("myplot.png")
+timeSeries<-function(serie){ 
+  #png("myplot.png")
   p = qplot(x=c(1:length(serie)),y=serie,geom="line",xlab="Time",ylab="Serie") +
     ggtitle("Graphic of time serie") + theme(plot.title = element_text(hjust=0.5))
-  #(gg <- ggplotly(p))
   print(p)
-  dev.off()
+  #dev.off()
 }
 
 #Points == 0 -> first point
@@ -30,15 +29,17 @@ patternsOnGraph<-function(serie,dimension,delay,number_of_pattern,points = 0){
         point_time[lengthW]=index[i,1]
       }
       else{
-        for(j in 1:dimension){
-          lengthW=lengthW+1
-          point_value[lengthW]=elements[i,j]
-          point_time[lengthW]=index[i,j]
-        }
+        point_value[(lengthW+1):(lengthW+1+dimension)] = elements[i,1:dimension]
+        point_time[(lengthW+1):(lengthW+1+dimension)] = index[i,1:dimension]
+        #for(j in 1:dimension){
+         # lengthW=lengthW+1
+          #point_value[lengthW]=elements[i,j]
+          #point_time[lengthW]=index[i,j]
+        #}
       }
     }
   }
-  png("myPattern.png")
+  #png("myPattern.png")
   if(lengthW!=0){
     p =qplot(x=c(1:length(serie)),y=serie,geom="line",xlab="Time",ylab="Serie") +
       ggtitle("Graphic of time serie") + theme(plot.title = element_text(hjust=0.5)) +
@@ -48,7 +49,7 @@ patternsOnGraph<-function(serie,dimension,delay,number_of_pattern,points = 0){
       ggtitle("Graphic of time serie") + theme(plot.title = element_text(hjust=0.5))
   }
   print(p)
-  dev.off()
+  #dev.off()
 }
 
 
@@ -67,11 +68,11 @@ histogram<-function(serie,dimension,delay, option){
     }
   }
   index_rep=index_rep[1:n_symbols]
-  png("myHistogram.png")
+  #png("myHistogram.png")
   p = qplot(index_rep,geom="histogram",xlab="Patterns",ylab="Probability",binwidth=1) +
     ggtitle("Histogram of the patterns") + theme(plot.title = element_text(hjust=0.5))
   print(p)
-  dev.off()
+  #dev.off()
   symbol = toString(symbol)
   return(symbol)
 }

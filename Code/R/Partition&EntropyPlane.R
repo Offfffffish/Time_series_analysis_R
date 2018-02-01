@@ -24,41 +24,30 @@ partition<-function(series,size,delay){
   }
   myPartition[1:(counter),]
 }
-entropyPlane<-function(serie,partition,dimension,delay,option1,option2,q=0){
+
+entropyPlane<-function(serie,partition,dimension,delay,distribution,option,q=0){
   entropy = rep(0,partition)
-  division = length(serie)/partition
-  division = floor(division)
-  cont = 1
-  rest = 0
-  if(partition*division < length(serie)){
-    rest = length(serie) - (partition*division)
-  }
+  division = floor(length(serie)/partition)
   init = 1
-  final = 0
   for(i in 1:partition){
-    final = final + division
-    if(cont <= rest){
-      final = final +  1
-    }
-    myPartition = serie[init:final]
-    if(option1 == 1){
+    myPartition = serie[init:(init+division)]
+    if(distribution == 1){
       probability = distribution(myPartition,dimension,delay)
     }else{
       probability = WPE(myPartition,dimension,delay)
     }
-    if(option2 == 1){
-      entropy[i] = shannonEntropyNormalized(probability)
-    }else if(option2 == 2){
+    if(option == 1){
+      entropy[i] = shannonNormalized(probability)
+    }else if(option == 2){
       entropy[i] = tsallisEntropy(probability,q)
-    }else if(option2 == 3){
+    }else if(option == 3){
       entropy[i] = renyiEntropy(probability,q)
     }else{
       entropy[i] = PMEUnidimensional(probability)
     }
-    init = final + 1
-    cont = cont + 1
+    init = init + division + 1
   }
-  png("myEntropy.png")
+  #png("myEntropy.png")
   if(partition==1){
     p = qplot(x=c(1:partition),y=entropy,geom="point",xlab="Partitions-Time Series",ylab="Entropy") +
       ggtitle("Permutation Entropy Evolution") + theme(plot.title = element_text(hjust=0.5))
@@ -68,82 +57,57 @@ entropyPlane<-function(serie,partition,dimension,delay,option1,option2,q=0){
       ggtitle("Permutation Entropy Evolution") + theme(plot.title = element_text(hjust=0.5))
   }
   print(p)
-  dev.off()
+  #dev.off()
   return(entropy)
 }
 
-distancePlane<-function(partitions,dimension,delay,option=1,optionP=1,q=1){
-  numberPartitions = dim(partitions)[1]
-  if(is.null(numberPartitions)){
-    numberPartitions = 1
-  }
-  distance = rep(0,numberPartitions)
-  probability = matrix(nrow=numberPartitions,ncol=factorial(dimension))
-  if(optionP == 1){
-    if(numberPartitions==1){
-      probability[1,] = distribution(partitions,dimension,delay)
+#Falta adicionar no relatório
+distancePlane<-function(serie,partition,dimension,delay,option=1,optionP=1,q=1){
+  distance = rep(0,partition)
+  division = floor(length(serie)/partition)
+  init = 1
+  for(i in 1:partition){
+    myPartition = serie[init:(init+division)]
+    if(optionP == 1){
+      probability = distribution(myPartition,dimension,delay)
+    }else{
+      probability = WPE(myPartition,dimension,delay)
     }
-    else{
-      for(i in 1:numberPartitions){
-        probability[i,] = distribution(partitions[i,],dimension,delay)
-      }
-    }
-  }else if(optionP == 2){
-    if(numberPartitions==1){
-      probability[1,] = WPE(partitions,dimension,delay)
-    }
-    else{
-      for(i in 1:numberPartitions){
-        probability[i,] = WPE(partitions[i,],dimension,delay)
-      }
-    }
-  }else{
+    if(option == 1){
+      distance[i] = euclidianDistance(probability)
+    }else if(option == 2){
+      distance[i] = squaredDistance(probability)
+    }else if(option == 3){
+      distance[i] = manhattanDistance(probability)
+    }else if(option == 4){
+      distance[i] = chebyshevDistance(probability)
+    }else if(option == 5){
+      distance[i] = kullbackDivergence(probability)
+    }else if(option == 6){
+      distance[i] = hellingerDistance(probability)
+    }else if(option == 7){
+      distance[i] = jensenDivergence(probability)
+    }else if(option == 8){
+      distance[i] = woottersDistance(probability,q)
+    }else if(option == 9){
+      distance[i] = bhattacharyyaDistance(probability,q)
+    }else{
     cat("Distance option unavailable\n")
+    }
+    init = init + division + 1
   }
-  if(option == 1){
-    for(i in 1:numberPartitions){
-      distance[i] = euclidian_distance(probability[i,])
-    }
-  }else if(option == 2){
-    for(i in 1:numberPartitions){
-      distance[i] = euclidian_quadratica_distance(probability[i,])
-    }
-  }else if(option == 3){
-    for(i in 1:numberPartitions){
-      distance[i] = manhattan_distance(probability[i,])
-    }
-  }else if(option == 4){
-    for(i in 1:numberPartitions){
-      distance[i] = chebyshev_distance(probability[i,])
-    }
-  }else if(option == 5){
-    for(i in 1:numberPartitions){
-      distance[i] = kullback_leibler_divergence(probability[i,])
-    }
-  }else if(option == 6){
-    for(i in 1:numberPartitions){
-      distance[i] = hellinger_Distance(probability[i,])
-    }
-  }else if(option == 7){
-    for(i in 1:numberPartitions){
-      distance[i] = jensenDivergence(probability[i,])
-    }
-  }else if(option == 8){
-    for(i in 1:numberPartitions){
-      distance[i] = wootters_distance(probability[i,],q)
-    }
-  }else{
-    cat("Distance option unavailable\n")
-  }
-  print(distance)
-  if(numberPartitions==1){
-    qplot(x=c(1:numberPartitions),y=distance,geom="point",xlab="Partitions-Time Series",ylab="Distance") +
+  #png("myEntropy.png")
+  if(partition==1){
+    p = qplot(x=c(1:partition),y=distance,geom="point",xlab="Partitions-Time Series",ylab="Distance") +
       ggtitle("Stochastic distance Evolution") + theme(plot.title = element_text(hjust=0.5))
   }
   else{
-    qplot(x=c(1:numberPartitions),y=distance,geom="line",xlab="Partitions-Time Series",ylab="Distance") +
+    p = qplot(x=c(1:partition),y=distance,geom="line",xlab="Partitions-Time Series",ylab="Distance") +
       ggtitle("Stochastic distance Evolution") + theme(plot.title = element_text(hjust=0.5))
   }
+  print(p)
+  #dev.off()
+  return(distance)
 }
 
 

@@ -6,28 +6,34 @@ definePatterns<-function(dimension){
   symbol
 }
 
-formationPattern<-function(series,dimension,delay){
+formationPattern<-function(serie,dimension,delay,option){
   n_symbols = i = 1
-  n = length(series)
-  p_patterns = matrix(nrow=n,ncol=dimension)
+  n = length(serie)
+  p_patterns = elements = matrix(nrow=n,ncol=dimension)
   index = c(0:(dimension-1)) 
   while(i <= n){    
     first = i
     if((i+dimension-1)<=n){
-      p_patterns[n_symbols,] = index[order(series[i:(i+dimension-1)])]
+      elements[n_symbols,] = serie[i:(i+dimension-1)]
+      p_patterns[n_symbols,] = index[order(elements[n_symbols,])]
       i = first + delay
       n_symbols = n_symbols + 1
     }else break
   }
-  p_patterns = na.omit(p_patterns)
-  p_patterns[1:dim(p_patterns)[1],]
+  if(option == 0){
+    p_patterns = na.omit(p_patterns)
+    p_patterns[1:dim(p_patterns)[1],]
+  }else{
+    elements = na.omit(elements)
+    elements[1:dim(elements)[1],]    
+  }
 }
 
 
 distribution<-function(serie,dimension,delay){  
   fat = factorial(dimension)
   probability = rep(0,fat)
-  p_patterns <- formationPattern(serie,dimension,delay)
+  p_patterns <- formationPattern(serie,dimension,delay,0)
   n_symbols <- dim(p_patterns)[1]
   symbols <- definePatterns(dimension)
   for(i in 1:fat){
