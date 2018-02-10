@@ -1,30 +1,6 @@
 library(ggplot2)
 library(combinat)
 
-partition<-function(series,size,delay){
-  myPartition = matrix(ncol=size,nrow=ceiling(length(series)/delay))
-  col = counter = i = 1
-  init =0 
-  if(length(levels(series))!=0){
-    series = factor(series)
-  }
-  while(i <= length(series)){
-    myPartition[counter,col] = series[i]
-    col = col + 1
-    if((col - 1) == size){
-      i = init = init + delay 
-      col = 1
-      counter = counter + 1
-      if((i + size + 1) > length(series)){
-        counter = counter - 1
-        break
-      }
-    }
-    i = i + 1
-  }
-  myPartition[1:(counter),]
-}
-
 entropyPlane<-function(serie,partition,dimension,delay,distribution,option,q=0){
   entropy = rep(0,partition)
   division = floor(length(serie)/partition)

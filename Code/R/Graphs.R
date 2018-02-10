@@ -31,11 +31,6 @@ patternsOnGraph<-function(serie,dimension,delay,number_of_pattern,points = 0){
       else{
         point_value[(lengthW+1):(lengthW+1+dimension)] = elements[i,1:dimension]
         point_time[(lengthW+1):(lengthW+1+dimension)] = index[i,1:dimension]
-        #for(j in 1:dimension){
-         # lengthW=lengthW+1
-          #point_value[lengthW]=elements[i,j]
-          #point_time[lengthW]=index[i,j]
-        #}
       }
     }
   }

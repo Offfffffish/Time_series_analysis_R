@@ -11,7 +11,7 @@ removeDuplicate <- function(serie){
   serie
 }
 
-PMEUnidimensional<-function(p){
+PME<-function(p){
   pme = (-1)*log(max(p))
   pme
 }
