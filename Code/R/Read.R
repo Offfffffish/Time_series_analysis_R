@@ -1,7 +1,7 @@
 #Leitura de dados em arquivos#
 
 #Leitura do arquivo .txt e armazenamento do conte?do em um array#
-Read_txt<-function(name,column){
+Readtxt2<-function(name,column){
   data = read.table(name, stringsAsFactors=FALSE, fileEncoding="latin1")
   data = data[,column]
   if(mode(data)=="character"){
@@ -11,16 +11,19 @@ Read_txt<-function(name,column){
   return(data)
 }
 
-Read_txt2<-function(column){
-  data = read.table(file.choose())
+Readtxt<-function(column){
+  data = read.table(file.choose(), stringsAsFactors=FALSE, fileEncoding="latin1")
   data = data[,column]
+  if(mode(data)=="character"){
+    data = type.convert(data)
+  }
   data = na.omit(data)
   return(data)
 }
 
 #Leitura do arquivo .csv e armazenamento do conte?do em um array#
-Read_csv<-function(column,separador=";"){
-  data=read.csv(file.choose(), stringsAsFactors=T, fileEncoding="latin1",sep=separador)
+Readcsv<-function(column,separator=";"){
+  data=read.csv(file.choose(), stringsAsFactors=T, fileEncoding="latin1",sep=separator)
   data = data[,column]
   if(mode(data)=="character"){
     data = type.convert(data)
@@ -31,7 +34,7 @@ Read_csv<-function(column,separador=";"){
 
 #option == 0 -> Manter os valores repetidos
 #Option != 0 -> Retirar os valores repetidos
-Read_csv_interface<-function(file, column, option = 0){  
+Readcsvinterface<-function(file, column, option = 0){  
     time=read.csv(svalue(file), stringsAsFactors=T, fileEncoding="latin1",sep=";")
     time = time[,column]
     if(mode(time)=="character"){
