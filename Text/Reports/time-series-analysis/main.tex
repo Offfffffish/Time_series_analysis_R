@@ -100,6 +100,83 @@ Para o pleno funcionamento das funções desenvolvidas, será necessário que os
 \begin{table}[!h]
 \begin{center}
 \begin{tabularx}{\textwidth}{ X X}
+\hspace{0.5cm} Readtxt & \textit{Leitura de dados de um arquivo .txt}\\
+\end{tabularx}
+\end{center}
+\end{table} 
+
+\vspace{-0.5cm}
+
+\hrulefill  
+
+\vspace{0.5cm}
+
+\textbf{Uso}
+
+\begin{lstlisting}
+   Readtxt(column)
+\end{lstlisting}
+
+\vspace{0.5cm}
+
+\textbf{Argumentos}
+
+\begin{table}[!h]
+\begin{center}
+\begin{tabularx}{\textwidth}{X X}
+\hspace{0.5cm} \textit{column} & Coluna de dados que deseja ser lida pela função.\\
+\end{tabularx}
+\end{center}
+\end{table} 
+
+\newpage
+
+
+%------------------------------------------------------------------------------------------------------------------
+
+\hrulefill   
+
+\begin{table}[!h]
+\begin{center}
+\begin{tabularx}{\textwidth}{ X X}
+\hspace{0.5cm} Readcsv & \textit{Leitura de dados de um arquivo .csv}\\
+\end{tabularx}
+\end{center}
+\end{table} 
+
+\vspace{-0.5cm}
+
+\hrulefill  
+
+\vspace{0.5cm}
+
+\textbf{Uso}
+
+\begin{lstlisting}
+   Readcsv(column,separator)
+\end{lstlisting}
+
+\vspace{0.5cm}
+
+\textbf{Argumentos}
+
+\begin{table}[!h]
+\begin{center}
+\begin{tabularx}{\textwidth}{X X}
+\hspace{0.5cm} \textit{column} & Coluna de dados que deseja ser lida pela função.\\
+\hspace{0.5cm} \textit{separator} & (Opcional) Caracter separador de campo. Os valores em cada linha do arquivo são separados por esse caracter. É colocado por default o ";".\\
+\end{tabularx}
+\end{center}
+\end{table} 
+
+
+%------------------------------------------------------------------------------------------------------------------
+
+\hrulefill   
+
+\begin{table}[!h]
+\begin{center}
+\begin{tabularx}{\textwidth}{ X X}
 \hspace{0.5cm} equalitiesValues & \textit{Percentual de dados repetidos em uma dada série temporal}\\
 \end{tabularx}
 \end{center}
@@ -475,7 +552,7 @@ Para o pleno funcionamento das funções desenvolvidas, será necessário que os
 \begin{table}[!h]
 \begin{center}
 \begin{tabularx}{\textwidth}{ X X}
-\hspace{0.5cm} PMEUnidimensional & \textit{Entropia entropia de mínima permutação de uma distribuição de probabilidade}\\
+\hspace{0.5cm} PME & \textit{Entropia entropia de mínima permutação de uma distribuição de probabilidade}\\
 \end{tabularx}
 \end{center}
 \end{table} 
@@ -489,7 +566,7 @@ Para o pleno funcionamento das funções desenvolvidas, será necessário que os
 \textbf{Uso}
 
 \begin{lstlisting}
-   PMEUnidimensional(p)
+   PME(p)
 \end{lstlisting}
 
 \vspace{0.5cm}
@@ -989,7 +1066,7 @@ Para o pleno funcionamento das funções desenvolvidas, será necessário que os
 \begin{table}[!h]
 \begin{center}
 \begin{tabularx}{\textwidth}{ X X}
-\hspace{0.5cm} entropyPlane & \textit{Plota o gráfico da entropia de uma certa série temporal e seus particionamentos}\\
+\hspace{0.5cm} entropyPlane & \textit{Plota o gráfico da entropia de uma certa série temporal ou seus particionamentos}\\
 \end{tabularx}
 \end{center}
 \end{table} 
@@ -1004,7 +1081,7 @@ Para o pleno funcionamento das funções desenvolvidas, será necessário que os
 
 \begin{lstlisting}
    entropyPlane(serie,partitions,dimension,delay,
-   			distribution,entropy,q)
+   			distribution,option,q)
 \end{lstlisting}
 
 \vspace{0.5cm}
@@ -1019,11 +1096,63 @@ Para o pleno funcionamento das funções desenvolvidas, será necessário que os
 \hspace{0.5cm} \textit{dimension} \vspace{0.5cm}& Dimensão dos padrões ordinais.\vspace{0.5cm}\\
 \hspace{0.5cm} \textit{delay} \vspace{0.5cm}& Delay utilizado na formação dos padrões.\vspace{0.5cm}\\
 \hspace{0.5cm} \textit{distribution} \vspace{0.5cm}& Distribuição que deve ser utilizada. O parâmetro deverá ser 1 para a distribuição de Bandt and Pompe, caso contrário a distribuição que será aplicada será a de Bandt and Pompe weigth.\vspace{0.5cm}\\
-\hspace{0.5cm} \textit{entropy} \vspace{0.5cm}& Entropia que deve ser analisada. O parâmetro deve ser 1 para a entropia de shannon, 2 para a entropia de Tsallis ou 3 para a entropia de Renyi. Caso contrário, deverá ser aplicada a min entropy.\vspace{0.5cm}\\
+\hspace{0.5cm} \textit{option} \vspace{0.5cm}& Entropia que deve ser analisada. O parâmetro deve ser 1 para a entropia de shannon, 2 para a entropia de Tsallis ou 3 para a entropia de Renyi. Caso contrário, deverá ser aplicada a min entropy.\vspace{0.5cm}\\
 \hspace{0.5cm} \textit{q} \vspace{0.5cm}& (Pode não ser necessário dependendo da entropia selecionada) Ordem da entropia.\vspace{0.5cm}\\
 \end{tabularx}
 \end{center}
 \end{table} 
+
+\newpage
+%---------------------------------------------------------------------------------------------------------------
+
+\hrulefill   
+
+\begin{table}[!h]
+\begin{center}
+\begin{tabularx}{\textwidth}{ X X}
+\hspace{0.5cm} distancePlane & \textit{Plota o gráfico da distância estocástica de uma certa série temporal ou seus particionamentos}\\
+\end{tabularx}
+\end{center}
+\end{table} 
+
+\vspace{-0.5cm}
+
+\hrulefill  
+
+\vspace{0.5cm}
+
+\textbf{Uso}
+
+\begin{lstlisting}
+   distancePlane<-function(serie,partition,dimension,delay,
+   				optionD=1,optionP=1,q=1){
+\end{lstlisting}
+
+\vspace{0.5cm}
+
+\textbf{Argumentos}
+
+\begin{table}[!h]
+\begin{center}
+\begin{tabularx}{\textwidth}{X X}
+\hspace{0.5cm} \textit{serie} \vspace{0.5cm}& Um vetor numérico onde estará instânciada a série temporal que deve ser avaliada pela função.\vspace{0.5cm}\\
+\hspace{0.5cm} \textit{partition} \vspace{0.5cm}& Quantidade de partições que a série deve ser dividida para a análise.\vspace{0.5cm}\\
+\hspace{0.5cm} \textit{dimension} \vspace{0.5cm}& Dimensão dos padrões ordinais.\vspace{0.5cm}\\
+\hspace{0.5cm} \textit{delay} \vspace{0.5cm}& Delay utilizado na formação dos padrões.\vspace{0.5cm}\\
+\hspace{0.5cm} \textit{optionD} \vspace{0.5cm}& Distância estocástica que deve ser analisada. Devem ser usados os seguintes valores para acessar as opções disponíveis: Euclidiana (1), euclidiana quadrática (2), manhattan (3), chebyshev (4), divergência de Kullback-Leibler (5), helinger (6), divergência de Jensen Shannon (7), wootters (8) e bhattacharyya (9)\vspace{0.5cm}\\
+\hspace{0.5cm} \textit{optionP} \vspace{0.5cm}& Distribuição que deve ser utilizada. O parâmetro deverá ser 1 para a distribuição de Bandt and Pompe, caso contrário a distribuição que será aplicada será a de Bandt and Pompe weigth.\vspace{0.5cm}\\
+\end{tabularx}
+\end{center}
+\end{table} 
+
+\begin{table}[!h]
+\begin{center}
+\begin{tabularx}{\textwidth}{X X}
+\hspace{0.5cm} \textit{q} \vspace{0.5cm}& (Pode não ser necessário dependendo da entropia selecionada) Ordem da entropia.\vspace{0.5cm}\\
+\end{tabularx}
+\end{center}
+\end{table} 
+
 \newpage
 
 %---------------------------------------------------------------------------------------------------------------
@@ -1065,7 +1194,6 @@ Para o pleno funcionamento das funções desenvolvidas, será necessário que os
 \end{center}
 \end{table} 
 
-\newpage
 %-----------------------------------------------------------------------------------------------
 
 \hrulefill   
@@ -1090,7 +1218,7 @@ Para o pleno funcionamento das funções desenvolvidas, será necessário que os
    saxPlot(serie,letters,partitions)
 \end{lstlisting}
 
-\vspace{0.5cm}
+\vspace{1.5cm}
 
 \textbf{Argumentos}
 
@@ -1103,8 +1231,6 @@ Para o pleno funcionamento das funções desenvolvidas, será necessário que os
 \end{tabularx}
 \end{center}
 \end{table} 
-
-\newpage
 
 %---------------------------------------------------------------------------------------------------------------
 
@@ -1143,7 +1269,7 @@ Para o pleno funcionamento das funções desenvolvidas, será necessário que os
 \end{center}
 \end{table} 
 
-
+\newpage
 %---------------------------------------------------------------------------------------------------------------
 
 \hrulefill   
