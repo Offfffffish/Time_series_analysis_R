@@ -25,7 +25,6 @@ img <- gdkPixbufNewFromFile("icone.png")
 getToolkitWidget(win)$setIcon(img$retval)
 paned<-gpanedgroup(cont=win)
 group<- ggroup (cont = paned , horizontal = FALSE )
-#getBlock(win)$modifyBg(GtkStateType["normal"], "blue")
 
 #---------------------------------------XXX-------------------------------------------
 frame1 <- gframe ( "PLOT:" , cont = paned , horizontal = TRUE)
@@ -83,7 +82,7 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
   missingParameter = "The desired functionality could not be performed, the parameters are missing:"
   myResult = svalue(cb1,index=TRUE)
   if(svalue(myFile) != "Select file..."){
-    time = Read_csv_interface(myFile,2)
+    time = Readcsvinterface(myFile,2)
     size = length(time)
     equals = equalitiesValues(time) 
     alert = finalResult = 0
@@ -96,21 +95,21 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
           probability = WPE(time,svalue(cb2,index=TRUE)+3,svalue(text2))
         }
         if(myResult == 4){
-          finalResult = euclidian_distance(probability)
+          finalResult = euclidianDistance(probability)
         }else if(myResult == 5){
-          finalResult = euclidian_quadratica_distance(probability)
+          finalResult = squaredDistance(probability)
         }else if(myResult == 6){
-          finalResult = manhattan_distance(probability)
+          finalResult = manhattanDistance(probability)
         }else if(myResult == 7){
-          finalResult = chebyshev_distance(probability)
+          finalResult = chebyshevDistance(probability)
         }else if(myResult == 8){
-          finalResult = hellinger_Distance(probability)
+          finalResult = hellingerDistance(probability)
         }else if(myResult == 12){
           finalResult = Ccomplexity(probability)
         }else if(myResult == 1){
-          finalResult = shannonEntropyNormalized(probability)
+          finalResult = shannonNormalized(probability)
         }else if(myResult == 13){
-          finalResult = PMEUnidimensional(probability)
+          finalResult = PME(probability)
         }else if(myResult == 21){
           histogram(time,svalue(cb2,index=TRUE)+3,svalue(text2))
           name = "myHistogram.png"
@@ -129,9 +128,9 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
           probability = WPE(time,svalue(cb2,index=TRUE)+3,svalue(text2))
         }
         if(myResult == 11){
-          finalResult = kullback_leibler_divergence(probability)
+          finalResult = kullbackDivergence(probability)
         }else if(myResult == 10){
-          finalResult = wootters_distance(probability,svalue(text3))
+          finalResult = woottersDistance(probability,svalue(text3))
         }else if(myResult == 2){
           finalResult = tsallisEntropy(probability,svalue(text3))
         }else if(myResult == 3){
@@ -142,15 +141,6 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
         missingParameter = paste(missingParameter," Dimension, delay, q and distribution.")
       }
     }
-    #else if((myResult == 21)){
-     # if((!is.na(svalue(text4)))&&(!is.na(svalue(text2)))&&(!is.na(svalue(cb2,index=TRUE)))){
-      #  patternsOnGraph(time,svalue(cb2,index=TRUE)+3,svalue(text2),svalue(text4))
-       # name = "myPattern.png"
-      #}else{
-       # alert = 1
-       # missingParameter = paste(missingParameter," Dimension, delay and Pattern")
-      #}
-    #}
     else if((myResult == 14)){
       if((!is.na(svalue(text5)))&&(!is.na(svalue(text6)))){
         saxPlot(time,svalue(text5),svalue(text6))
@@ -197,7 +187,7 @@ tbl2[2,3] <- gbutton("CALCULATE",container=tbl,handler=function(a=1,b=2){
         missingParameter = paste(missingParameter," Dimension, delay and partitions.")
       }
     }else if(myResult == 20){
-      time_series(time)
+      timeSeries(time)
       name = "myplot.png"
       
     }

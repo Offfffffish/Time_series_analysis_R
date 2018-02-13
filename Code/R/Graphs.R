@@ -48,7 +48,7 @@ patternsOnGraph<-function(serie,dimension,delay,number_of_pattern,points = 0){
 }
 
 
-histogram<-function(serie,dimension,delay, option){
+histogram<-function(serie,dimension,delay){
   fat=factorial(dimension)
   p_patterns <- formationPattern(serie,dimension,delay)
   n_symbols <- dim(p_patterns)[1]
