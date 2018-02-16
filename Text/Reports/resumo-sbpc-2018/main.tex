@@ -20,7 +20,7 @@
 %----------------------------------------------------------------------------------------
 %  TITLE SECTION
 %----------------------------------------------------------------------------------------
-\title{\large \textbf{Análise de Sinais com Distâncias Estocásticas e Diferenças de Entropias - Ferramentas para Análise de Séries Temporais}}
+\title{\large \textbf{Ferramentas para Análise de Séries Temporais com Distâncias Estocásticas e Diferenças de Entropias}}
 \author{\myfont Eduarda T.\ C.\ Chagas$^{1}$, Alejandro C.\ Frery$^{2}$\\
     \myfont $^{1}$Estudante de IC de Ciência da Computação, Ufal\\
     \myfont $^{2}$Pesquisador do Laboratório de Computação Científica e Análise Numérica, Ufal}
@@ -45,15 +45,15 @@
 %Descreva os pontos principais do trabalho incluindo o(s) objetivo(s) de forma clara. Limite de 1000 caracteres contando espaços. 
 \textbf{Resumo}
 
- 	Este trabalho relata o processo de desenvolvimento de uma plataforma de análise dos descritores causais de uma série temporal oriundos da Teoria da Informação.
-	A plataforma visa facilitar a análise dessas séries nos mais variados ramos da ciência, como por exemplo, a discriminação entre fenômenos estocásticos e caóticos~\cite{DistinguishingNoiseFromChaos}, a identificação de padrões de comportamento em redes veiculares~\cite{CharacterizationVehicleBehaviorInformationTheory}, a classificação e verificação de assinaturas \textit{online}~\cite{ClassificationVerificationOnlineHandwrittenSignatures}, na análise da robustez de redes~\cite{InformationTheoryPerspectiveNetworkRobustness}, e a classificação de padrões de consumo de energia elétrica~\cite{CharacterizationElectricLoadInformationTheoryQuantifiers}.
-O sistema foi implementado na linguagem de programação \texttt R que além de fornecer ferramentas gráficas, também possui uma grande precisão numérica. 
-Ambas as características de extrema importância ao longo deste trabalho.
+Este trabalho relata o processo de desenvolvimento de uma plataforma de análise de descritores causais de séries temporais oriundos da Teoria da Informação.
+A plataforma facilita a análise dessas séries nos mais variados ramos da ciência, como por exemplo, a discriminação entre fenômenos estocásticos e caóticos~\cite{DistinguishingNoiseFromChaos}, a identificação de padrões de comportamento em redes veiculares~\cite{CharacterizationVehicleBehaviorInformationTheory}, a classificação e verificação de assinaturas \textit{online}~\cite{ClassificationVerificationOnlineHandwrittenSignatures}, a análise da robustez de redes~\cite{InformationTheoryPerspectiveNetworkRobustness}, e a classificação de padrões de consumo de energia elétrica~\cite{CharacterizationElectricLoadInformationTheoryQuantifiers}.
+O sistema foi implementado na linguagem de programação \texttt R que, além de fornecer ferramentas gráficas, possui a precisão numérica requerida. 
+Ambas características são de extrema importância ao longo deste trabalho.
 Após comentar brevemente a respeito de conceitos da Teoria da Informação necessários no processo de análise e modelagem de uma série temporal, expomos os resultados alcançados no decorrer do projeto e sugestões para futuros trabalhos.
 
 %------------------------------------------------
 %Informe a autorização legal para execução da pesquisa: as referências do cumprimento das exigências legais, com expedição de autorizações junto a Comitês de Ética ou Órgãos Ambientais, número de autorizações ou protocolos expedidos pelo CEP/CONEP, CEUA, IBAMA, ICMBio, CGEN, IPHAN etc.).
-\textbf{Autorização legal:}
+\textbf{Autorização legal:} Não se aplica.
 
 %------------------------------------------------
 %Informar 3, separadas por ponto e vírgula. Limite 60 caracteres cada. As palavras-chaves do trabalho não podem estar contidas no título do trabalho.
@@ -71,15 +71,16 @@ Após comentar brevemente a respeito de conceitos da Teoria da Informação nece
 
 Séries temporais são conjunto de dados obtidos a partir de um processo observacional ao longo de um determinado período de tempo, não necessariamente dividido em espaços iguais, sendo caracterizadas pela dependência serial existente entre as observações.
  
- O estudo de séries temporais é tipicamente dividido em duas vertentes \cite{BrockwellDavis91}, a análise do domínio do tempo e do domínio da frequência, sendo utilizado em ambas abordagens os dados que resultam diretamente das observações coletadas, que por sua vez estão sujeitos a efeitos danosos de diversos tipos de contaminação. 
+O estudo de séries temporais é tipicamente dividido em duas vertentes \cite{BrockwellDavis91}: a análise nos domínio do tempo e da frequência, sendo que ambas abordagens empregam os dados que resultam diretamente das observações coletadas, que por sua vez estão sujeitos a efeitos danosos de diversos tipos de contaminação. 
 Uma solução alternativa, presente na literatura, para evitar os efeitos dessa contaminação, consiste no uso de métodos não paramétricos.
 
-Há diversas ferramentas que auxiliam na análise clássica de séries temporais; para a plataforma \texttt  R, existindo diversas bibliotecas para essa finalidade (ver \url{https://cran.rproject.org/web/views/TimeSeries.html}). Além destas opções, o usuário também pode contar com os softwares de visualização de séries temporais. No entanto, são limitadas as opções de bibliotecas e softwares que trabalham exclusivamente com técnicas não paramétricas. 
+Há diversas ferramentas que auxiliam na análise clássica de séries temporais para a plataforma \texttt  R (ver \url{https://cran.rproject.org/web/views/TimeSeries.html}). 
+Além destas opções, o usuário também pode contar com ferramentas de visualização de séries temporais. No entanto, são limitadas as opções que trabalham exclusivamente com técnicas não paramétricas. 
     
 O projeto aqui relatado tomou como ponto de partida a identificação das necessidades dos pesquisadores: uma ferramenta gráfica amigável e funcionalidades rápidas, eficientes e numericamente confiáveis.
 Outro requisito foi o da portabilidade para diversos sistemas operacionais e arquiteturas de hardware, e o uso de ferramentas FLOSS (\textit{Free/Libre Open Source Software}).
  
-Apresentamos, assim, o desenvolvimento de uma ferramenta portável, rápida e de boa qualidade numérica que possibilita análises interativas e exploratórias dos dados de uma série temporal através de técnicas provenientes da Teoria da Informação.
+Apresentamos, assim, o desenvolvimento de uma ferramenta portável, rápida e de boa qualidade numérica que possibilita análises interativas e exploratórias de séries temporais através de técnicas provenientes da Teoria da Informação.
 Com ela, o usuário dispõe de uma conjunto técnicas de análise presentes na literatura para processar e examinar seus dados de modo eficiente e com um mínimo período de aprendizado.
 A ferramenta é extensível.
 
@@ -89,7 +90,7 @@ A ferramenta é extensível.
 
 A primeira parte do projeto consistiu da apropriação do referencial teórico.
 Seja a série temporal $\bm x = (x_1, x_2, \dots, x_n)$.
-Ao invés de analisarmos os valores, transformaremos grupos de $N$ valores (não necessariamente adjacentes) e padrões ordinais, e analisaremos a sua distribuição de frequência.
+Ao invés de analisarmos os valores, transformaremos grupos de $N$ valores (não necessariamente adjacentes) em padrões ordinais, e analisaremos a sua distribuição de frequência.
 Por exemplo e sem perda de generalidade, com $N=3$ e para qualquer $i$ viável,
 se $x_i<x_{i+1}<x_{i+2}$ assignaremos a esta tripla o padrão $\pi_0$;
 caso $x_i>x_{i+1}>x_{i+2}$ o padrão será $\pi_1$ e assim por diante.
@@ -101,10 +102,10 @@ Forma-se, então, um histograma e, a partir dele, extraem-se quantificadores com
 Seja, assim, $\bm h=(h_1,\dots,h_{N!})$ o histograma de proporções dos $N!$ padrões observados a partir da série temporal $\bm x$.
 Calculamos a entropia de Shannon
 \begin{equation}
-H(\bm h) = \sum_{i=1}^{N!} (-\log h_i) h_i,
+H(\bm h) = -\sum_{i=1}^{N!} h_i\log h_i,
 \label{eq:Entropia}
 \end{equation}
-com a convenção $-\infty 0=0$.
+com a convenção $-\infty \cdot 0=0$.
 A entropia de Shannon é o primeiro elemento a descrever a nossa série temporal.
 Ela mede a desordem do sistema que deu origem aos dados $\bm x$.
 
