@@ -1,7 +1,9 @@
 library(combinat)
+library(gtools)
 
 definePatterns<-function(dimension){
-  symbol = matrix(unlist(permn(dimension)),nrow = factorial(dimension),ncol = dimension,byrow = TRUE)
+  d = c(1:dimension)
+  symbol = matrix(unlist(permutations(n=dimension,r=dimension,v=d)),nrow = factorial(dimension),ncol = dimension,byrow = FALSE)
   symbol = symbol - 1
   symbol
 }

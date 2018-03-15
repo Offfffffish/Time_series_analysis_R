@@ -10,7 +10,7 @@ timeSeries<-function(serie){
   print(p)
   #dev.off()
 }
-
+qplot(x=c(1:100),y=songs[,4],geom="line",xlab="Musics",ylab="Danceability") 
 #Points == 0 -> first point
 #Points != 0 -> all points
 patternsOnGraph<-function(serie,dimension,delay,number_of_pattern,points = 0){
