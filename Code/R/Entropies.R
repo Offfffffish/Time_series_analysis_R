@@ -5,6 +5,7 @@ shannonEntropy <- function(p){
 }
 
 shannonNormalized <- function(p){
+  #shannon = round(shannonEntropy(p)/log(length(p)),precision)
   return(shannonEntropy(p)/log(length(p)))
 }
 
